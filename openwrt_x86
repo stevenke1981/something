@@ -1,0 +1,35 @@
+make image PROFILE="generic" PACKAGES="fuse-utils kmod-macvlan luci-app-natmap ntfs-3g e2fsprogs resize2fs block-mount lsblk cfdisk UDPspeeder luci luci-app-adblock luci-app-mwan3 luci-app-ttyd luci-app-smartdns luci-app-upnp luci-theme-material luci-app-statistics luci-app-ledtrig-usbport firewall4 docker docker-compose dockerd luci-app-dockerman" FILES="files"
+
+
+mkfs.ext4 /dev/sda3
+mount /dev/sda3 /mnt/sda3
+mount /dev/sda4 /mnt/sda4
+/mnt/sda3/docker
+
+查詢
+lsblk | grep -e sd -e nvme
+
+NVME SSD硬碟
+cfdisk /dev/nvme0n1
+
+格式化
+mkfs.ext4 /dev/nvme0n1p3
+
+掛載
+mount /dev/nvme0n1p3 /mnt/nvme0n1p3
+
+
+更改docker 預設路徑後需要重新啟動docker
+/etc/init.d/dockerd restart
+
+
+
+更改分區大小,不然空間不足
+
+nano .config
+
+CONFIG_TARGET_KERNEL_PARTSIZE=16
+CONFIG_TARGET_ROOTFS_PARTSIZE=104
+
+ 修改成
+CONFIG_TARGET_ROOTFS_PARTSIZE=360
