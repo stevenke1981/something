@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# 安裝必要的套件
+opkg update
+opkg install hostapd-utils kmod-crypto-ccmp kmod-crypto-crc32c kmod-crypto-crc32 kmod-crypto-hash kmod-crypto-manager kmod-crypto-aes kmod-crypto-des
+
+# 配置802.11r
+uci set wireless.default_radio0.mobility_domain=0x11aa
+uci set wireless.default_radio0.ft_over_ds=1
+uci set wireless.default_radio0.ft_psk_generate_local=1
+
+# 配置802.11k
+uci set wireless.default_radio0.rrm_neighbor_report=1
+uci set wireless.default_radio0.rrm_beacon_report=1
+uci set wireless.default_radio0.rrm_request_beacon=1
+
+# 配置802.11v
+uci set wireless.default_radio0.bss_transition=1
+
+# 重新啟動無線網絡
+wifi down
+wifi up
+
+# 配置完成
+echo "802.11r, k, v 配置已完成。"
