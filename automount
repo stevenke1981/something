@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# 搜尋可用的硬碟分區
+for DEV in /dev/sd[a-z]; do
+    if [ -b "$DEV" ]; then
+        PARTS="$(ls ${DEV}[0-9]* 2>/dev/null)"
+        if [ -z "$PARTS" ]; then
+            # 找到可用的硬碟，並格式化為 ext4 檔案系統
+            echo "Formatting ${DEV}..."
+            mkfs.ext4 -F ${DEV}
+
+            # 建立掛載點
+            mkdir /mnt/disk
+
+            # 將硬碟分區掛載到 /mnt/disk
+            echo "Mounting ${DEV}..."
+            mount ${DEV} /mnt/disk
+
+            # 設定 fstab，以便開機時自動掛載硬碟分區
+            echo "${DEV} /mnt/disk ext4 defaults 0 0" >> /etc/fstab
+
+            # 設定完成，退出迴圈
+            break
+        fi
+    fi
+done
