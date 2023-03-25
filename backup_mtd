@@ -1,0 +1,4 @@
+#!/bin/sh
+for i in $(seq 0 19); do
+  dd if=/dev/mtd$i of=/tmp/mtd$i.backup
+done
