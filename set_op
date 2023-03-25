@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# 關閉防火牆
+/etc/init.d/firewall stop
+/etc/init.d/firewall disable
+
+# 設定時區
+uci set system.@system[0].timezone='CST-8'
+uci commit system
+
+# 設定主機名稱
+uci set system.@system[0].hostname='OpenWrt'
+uci commit system
+
+# 設定網路介面
+uci set network.wan.proto='pppoe'
+uci set network.wan.username='86396068@hinet.net'
+uci set network.wan.password='787441'
+uci commit network
+
+# 設定 DNS 伺服器
+uci set network.wan.peerdns='0'
+uci set network.wan.dns='8.8.8.8 8.8.4.4'
+uci commit network
+
+# 重新啟動網路服務
+/etc/init.d/network restart
+
+# 安裝必要軟體
+opkg update
+opkg install luci luci-app-firewall
+
+# 啟動 Luci 網頁介面
+/etc/init.d/uhttpd start
+
+# 顯示設定完成訊息
+echo 'OpenWrt 初次設定已完成！'
