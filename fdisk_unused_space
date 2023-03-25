@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# 列出所有未使用的硬碟
+disks=$(lsblk -rpno NAME,MOUNTPOINT | awk '{if($2=="") print $1}')
+
+for disk in $disks; do
+    echo "正在格式化硬碟 $disk ..."
+    mkfs.ext4 $disk
+
+    echo "正在掛載硬碟 $disk ..."
+    mount $disk /mnt
+done
