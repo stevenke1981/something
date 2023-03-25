@@ -1,0 +1,17 @@
+#1.1.1.1 allowed
+@@||cloudflare-dns.com^
+#ChatGPT白名單
+@@||api.openai.com/v1/*$domain=~chatgpt.openai.com
+#YouTube白名單
+@@||youtube.com^$all
+@@||youtube-nocookie.com^$all
+@@||ytimg.com^$all
+@@||googlevideo.com^$all
+#discord allowed
+@@||discord.com^
+#midjourney allowed
+@@||midjourney.com^
+@@||hcaptcha.com^
+#block 
+||api.miwifi.com^
+||54647.io^
