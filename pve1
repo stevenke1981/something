@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# 編輯 /etc/apt/sources.list 檔案
+sudo echo "deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription" | sudo tee /etc/apt/sources.list > /dev/null
+
+# 編輯 /etc/apt/sources.list.d/pve-enterprise.list 檔案
+sudo sed -i 's/^/#/' /etc/apt/sources.list.d/pve-enterprise.list
+
+# 更新套件清單
+sudo apt-get update
+
+echo "已成功設置 Proxmox VE 更新源！"
