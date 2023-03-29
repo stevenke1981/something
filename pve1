@@ -10,3 +10,10 @@ sudo sed -i 's/^/#/' /etc/apt/sources.list.d/pve-enterprise.list
 sudo apt-get update
 
 echo "已成功設置 Proxmox VE 更新源！"
+
+
+
+$ apt update
+$ apt full-upgrade -y
+# 更新完可以重開機一下
+$ reboot
