@@ -1,0 +1,18 @@
+下面是一個基於MikroTik RouterOS的防火牆反向設定範例，禁止WAN訪問LAN：
+
+# 定義變數
+:local wanInterface "ether1"
+:local lanInterface "ether2"
+:local lanIP "192.168.0.0/24"
+:local action "drop"
+
+# 設定禁止WAN訪問LAN
+/ip firewall filter
+add action=$action chain=input in-interface=$wanInterface out-interface=$lanInterface src-address=$lanIP \
+    protocol=tcp dst-port=0-65535 comment="Block WAN access to LAN TCP"
+add action=$action chain=input in-interface=$wanInterface out-interface=$lanInterface src-address=$lanIP \
+    protocol=udp dst-port=0-65535 comment="Block WAN access to LAN UDP"
+add action=$action chain=forward in-interface=$wanInterface out-interface=$lanInterface src-address=$lanIP \
+    protocol=tcp dst-port=0-65535 comment="Block WAN access to LAN TCP"
+add action=$action chain=forward in-interface=$wanInterface out-interface=$lanInterface src-address=$lanIP \
+    protocol=udp dst-port=0-65535 comment="Block WAN access to LAN UDP"
