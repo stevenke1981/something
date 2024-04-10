@@ -1,0 +1,112 @@
+uci set wireless.radio0.channel=149
+uci set wireless.radio0.disabled=0
+uci set wireless.radio0.country=AU
+uci set wireless.default_radio0.ssid=redmiax6_5G
+uci set wireless.default_radio0.encryption=psk2
+uci set wireless.default_radio0.key=012345678
+uci set wireless.default_radio0.ieee80211k=1
+uci set wireless.default_radio0.wnm_sleep_mode=1
+uci set wireless.default_radio0.bss_transition=1
+uci set wireless.default_radio0.ieee80211r=1
+uci set wireless.default_radio0.mobility_domain=6688
+uci set wireless.default_radio0.ft_over_ds=0
+uci set wireless.default_radio0.ft_psk_generate_local=0
+uci set wireless.default_radio0.time_advertisement=2
+uci set wireless.default_radio0.time_zone=CST-8
+
+# 配置Station模式WiFi(连接上游)
+uci set wireless.meshwifinet1=wifi-iface
+uci set wireless.meshwifinet1.device='radio0'
+uci set wireless.meshwifinet1.network=wwan
+uci set wireless.meshwifinet1.mode='sta'
+uci set wireless.meshwifinet1.ssid='default_5G'
+uci set wireless.meshwifinet1.encryption='psk2'
+uci set wireless.meshwifinet1.key='047787441'
+# uci set wireless.meshwifinet1.bssid='C8:D5:FE:C8:61:B0'
+
+uci set wireless.radio1.channel=1
+uci set wireless.radio1.disabled=1
+uci set wireless.radio1.country=AU
+uci set wireless.default_radio1.ssid=redmiax6
+uci set wireless.default_radio1.encryption=psk2
+uci set wireless.default_radio1.key=012345678
+uci set wireless.default_radio1.ieee80211k=1
+uci set wireless.default_radio1.wnm_sleep_mode=1
+uci set wireless.default_radio1.bss_transition=1
+uci set wireless.default_radio1.ieee80211r=1
+uci set wireless.default_radio1.mobility_domain=6688
+uci set wireless.default_radio1.ft_over_ds=0
+uci set wireless.default_radio1.ft_psk_generate_local=0
+uci set wireless.default_radio1.time_advertisement=2
+uci set wireless.default_radio1.time_zone=CST-8
+
+uci set system.@system[0].hostname=Redmi_AX6
+uci set system.@system[0].zonename=Asia/Taipei
+uci set system.@system[0].timezone=CST-8
+
+# 配置LAN IP地址
+uci set network.lan.ipaddr='192.168.1.1'
+
+# 创建中继网桥接口
+uci set network.repeater_bridge=interface
+uci set network.repeater_bridge.proto='relay'
+uci set network.repeater_bridge.ipaddr='192.168.80.11'
+uci set network.repeater_bridge.netmask='255.255.255.0'
+uci set network.repeater_bridge.gateway='192.168.80.240'
+uci set network.repeater_bridge.dns='192.168.80.240'
+uci set network.repeater_bridge.network='lan wwan'
+
+# 将lan、repeater_bridge和wwan加入到防火墙zone
+uci set firewall.@zone[0].network='lan repeater_bridge wwan'
+
+# 禁用LAN DHCP服务
+uci set dhcp.lan.ignore='1'
+
+# 配置WWAN接口(将连接到上游WiFi),使用上游的DHCP
+# uci set network.wwan=interface
+# uci set network.wwan.proto='dhcp'
+
+# 配置WWAN接口(将连接到上游WiFi),使用靜態ip
+uci set network.wwan=interface
+uci set network.wwan.proto='static'
+uci set network.wwan.ipaddr='192.168.80.11'
+uci set network.wwan.netmask='255.255.255.0'
+uci set network.wwan.gateway='192.168.80.240'
+uci set network.wwan.dns='192.168.80.240'
+uci set network.wwan.dns2='8.8.8.8'
+
+
+
+# 設定IPV6
+# uci set dhcp.wan.interface=wwan
+# uci set dhcp.wan.ra=relay
+# uci set dhcp.wan.ndp=relay
+# uci set dhcp.wan.master=1
+
+# uci set dhcp.lan.ignore='1'
+# uci set dhcp.lan.ra='relay'
+# uci set dhcp.lan.dhcpv6='relay'
+# uci set dhcp.lan.ndp='relay'
+
+# 關閉ipv6
+uci set network.lan.ipv6='0'
+uci set dhcp.lan.ra='0'
+uci set network.wan.ipv6='0'
+uci set dhcp.lan.dhcpv6='0'
+
+#設定dawn的位址
+uci set dawn.@network[0].broadcast_ip='192.168.80.255'
+uci set dawn.global.duration='100'
+
+
+# 应用配置
+uci commit
+
+/etc/init.d/firewall disable
+/etc/init.d/odhcpd disable
+
+
+
+
+
+ath11k-firmware-ipq8074 base-files busybox ca-bundle dnsmasq dropbear e2fsprogs firewall4 fstools ipq-wifi-redmi_ax6 kmod-ath11k-ahb kmod-fs-ext4 kmod-gpio-button-hotplug kmod-leds-gpio kmod-nft-offload kmod-phy-aquantia kmod-qca-nss-dp libc libgcc libustream-mbedtls logd losetup luci mtd netifd nftables odhcp6c odhcpd-ipv6only opkg ppp ppp-mod-pppoe procd procd-seccomp procd-ujail uboot-envtools uci uclient-fetch urandom-seed urngd wpad-mbedtls luci relayd luci-proto-relay luci-theme-openwrt-2020 luci-app-dawn kmod-bonding luci-proto-bonding luci-app-nlbwmon luci-app-ttyd nano kmod-batman-adv batctl luci-proto-batman-adv
