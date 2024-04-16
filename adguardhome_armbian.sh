@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # 下載AdGuardHome二進制文件
-wget https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.107.48/AdGuardHome_linux_ppc64le.tar.gz
+wget https://static.adguard.com/adguardhome/release/AdGuardHome_linux_arm64.tar.gz
 # 解壓縮二進制文件
-tar -xzvf AdGuardHome_linux_ppc64le.tar.gz
+tar -xzvf AdGuardHome_linux_arm64.tar.gz
 
 # 移動解壓縮後的文件到 /opt/AdGuardHome 目錄
 sudo mv AdGuardHome /opt/
