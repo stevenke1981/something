@@ -2,3 +2,33 @@ step 1. fms 2.3.3
 
 step 2. paste  [{"command":"ascset","parameter":"0,aging-set,1"}] 
         and run
+
+
+
+
+
+
+1 Step:
+So you have to download the FMS 2.3.3 
+
+https://canaan.io/wp-content/uploads/...
+
+2 Step:
+
+Add the machine to the List of miners to be configured.
+
+3 Step:
+
+Change your miner mode to "High performance"
+
+
+4 Step:
+
+Run the following commands:
+
+Into the diagnose page and click the following command:
+
+
+Stop aging: [{"command":"ascset", "parameter":"0,aging-set,3"}]
+Set parameter: [{"command":"ascset", "parameter":"0,aging-parameter,60-537:562:587:612"}]
+Reboot :[{"command":"ascset", "parameter":"0,reboot,0"}]
