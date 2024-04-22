@@ -32,3 +32,9 @@ Into the diagnose page and click the following command:
 Stop aging: [{"command":"ascset", "parameter":"0,aging-set,3"}]
 Set parameter: [{"command":"ascset", "parameter":"0,aging-parameter,60-537:562:587:612"}]
 Reboot :[{"command":"ascset", "parameter":"0,reboot,0"}]
+
+
+
+
+set up fan speed 
+[{"command":"ascset","parameter":"0,fan-spd,78"}]
