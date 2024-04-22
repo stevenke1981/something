@@ -1,0 +1,4 @@
+step 1. fms 2.3.3 
+
+step 2. paste  [{"command":"ascset","parameter":"0,aging-set,1"}] 
+        and run
