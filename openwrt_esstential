@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Update package lists
+sudo apt update
+
+# Install OpenWrt build dependencies
+sudo apt install -y \
+  binutils \
+  bzip2 \
+  diffutils \
+  findutils \
+  flex \
+  gawk \
+  gcc \
+  g++ \
+  gettext \
+  grep \
+  libc6-dev \
+  zlib1g-dev \
+  make \
+  perl \
+  python3 \
+  python3-setuptools \
+  rsync \
+  subversion \
+  unzip \
+  gnu-which \
+  libncurses-dev \
+  file
+
+# Ensure g++ version is 8 or later
+if ! g++ --version | grep -q "g++ (Ubuntu " || [ $(g++ -dumpversion | cut -d. -f1) -lt 8 ]; then
+  sudo apt install -y g++-8
+  sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 80
+  sudo update-alternatives --set g++ /usr/bin/g++-8
+fi
+
+# Install distutils for Python 3
+sudo apt install -y python3-pip
+pip3 install setuptools
+
+# Verify installations
+echo "Verifying installations:"
+g++ --version
+python3 -c "import distutils; print('Python3 distutils is installed')"
+file --version
+ldconfig -p | grep libncurses
