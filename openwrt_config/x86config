@@ -2,12 +2,22 @@ base-files busybox ca-bundle dnsmasq dropbear e2fsprogs firewall4 fstools grub2-
 
 
 
+# 系統設置
 uci set system.@system[0].hostname=N5105PC
 uci set system.@system[0].zonename=Asia/Taipei
 uci set system.@system[0].timezone=CST-8
 
-# 配置LAN IP地址
+# 配置 LAN
 uci set network.lan.ipaddr='192.168.80.240'
+uci set network.lan.proto='static'
+uci set network.lan.type='bridge'
+uci set network.lan.ifname='eth0 eth1 eth2'
+
+# 配置 WAN
+uci set network.wan.ifname='eth3'
+uci set network.wan.proto='pppoe'
+uci set network.wan.username='888@hinet.net'
+uci set network.wan.password='12345678'
 
 
 # 關閉ipv6
@@ -20,5 +30,5 @@ uci set dhcp.lan.dhcpv6='0'
 # 应用配置
 uci commit
 
-/etc/init.d/firewall disable
+#/etc/init.d/firewall disable
 /etc/init.d/odhcpd disable
