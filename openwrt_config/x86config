@@ -25,6 +25,9 @@ uci set network.wan.proto='pppoe'
 uci set network.wan.username='888@hinet.net'
 uci set network.wan.password='12345678'
 
+# 配置 WAN6
+uci set network.wan6.ifname='eth3'
+uci set network.wan6.proto='dhcpv6'
 
 # 關閉ipv6
 uci set network.lan.ipv6='0'
