@@ -1,0 +1,24 @@
+base-files busybox ca-bundle dnsmasq dropbear e2fsprogs firewall4 fstools grub2-bios-setup kmod-button-hotplug kmod-nft-offload libc libgcc libustream-mbedtls logd mkf2fs mtd netifd nftables odhcp6c odhcpd-ipv6only opkg partx-utils ppp ppp-mod-pppoe procd procd-seccomp procd-ujail uci uclient-fetch urandom-seed urngd kmod-amazon-ena kmod-amd-xgbe kmod-bnx2 kmod-e1000e kmod-e1000 kmod-forcedeth kmod-fs-vfat kmod-igb kmod-igc kmod-ixgbe kmod-r8169 kmod-tg3 kmod-usb-uhci kmod-usb-ohci kmod-usb2 kmod-usb3 luci fuse-utils kmod-macvlan ntfs-3g e2fsprogs resize2fs block-mount lsblk cfdisk UDPspeeder luci-app-mwan3 luci-app-ttyd luci-app-smartdns luci-app-upnp luci-theme-material luci-app-statistics luci-app-ledtrig-usbport
+
+
+
+uci set system.@system[0].hostname=N5105PC
+uci set system.@system[0].zonename=Asia/Taipei
+uci set system.@system[0].timezone=CST-8
+
+# 配置LAN IP地址
+uci set network.lan.ipaddr='192.168.80.240'
+
+
+# 關閉ipv6
+uci set network.lan.ipv6='0'
+uci set dhcp.lan.ra='0'
+uci set network.wan.ipv6='0'
+uci set dhcp.lan.dhcpv6='0'
+
+
+# 应用配置
+uci commit
+
+/etc/init.d/firewall disable
+/etc/init.d/odhcpd disable
