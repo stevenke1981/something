@@ -5,7 +5,10 @@ base-files busybox ca-bundle dnsmasq-full dropbear e2fsprogs firewall4 fstools g
 uci set system.@system[0].hostname=N5105PC
 uci set system.@system[0].zonename=Asia/Taipei
 uci set system.@system[0].timezone=CST-8
-uci set system.@system[0].ntp.server='0.pool.ntp.org' '1.pool.ntp.org' '2.pool.ntp.org' '3.pool.ntp.org'
+uci delete system.@system[0].ntp.server
+uci add system.@system[0].ntp.server
+uci add_list system.@system[0].ntp.server='0.pool.ntp.org'
+uci add_list system.@system[0].ntp.server='1.pool.ntp.org'
 
 
 
