@@ -1,1 +1,54 @@
 alsa-utils autocore automount base-files block-mount busybox ca-bundle default-settings-chn dnsmasq-full dropbear fdisk firewall4 fstools grub2-bios-setup intel-igpu-firmware-dmc ipv6helper kmod-8139cp kmod-8139too kmod-ac97 kmod-button-hotplug kmod-e1000e kmod-fs-f2fs kmod-i40e kmod-igb kmod-igbvf kmod-igc kmod-ixgbe kmod-ixgbevf kmod-nf-nathelper kmod-nf-nathelper-extra kmod-nft-offload kmod-pcnet32 kmod-r8101 kmod-r8125 kmod-r8126 kmod-r8168 kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek kmod-sound-hda-codec-via kmod-sound-hda-core kmod-sound-hda-intel kmod-sound-i8x0 kmod-sound-via82xx kmod-tulip kmod-usb-audio kmod-usb-hid kmod-usb-net kmod-usb-net-asix kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-usb-net-rtl8152-vendor kmod-vmxnet3 libc libgcc libustream-openssl logd luci luci-app-opkg luci-compat luci-lib-base luci-lib-ipkg mkf2fs mtd netifd nftables opkg partx-utils ppp ppp-mod-pppoe procd procd-seccomp procd-ujail uci uclient-fetch urandom-seed urngd kmod-amazon-ena kmod-amd-xgbe kmod-bnx2 kmod-e1000 kmod-forcedeth kmod-fs-vfat kmod-tg3 kmod-usb-uhci kmod-usb-ohci kmod-usb2 kmod-usb3 luci fuse-utils kmod-macvlan e2fsprogs resize2fs block-mount lsblk cfdisk UDPspeeder luci-app-mwan3 luci-app-ttyd luci-app-unbound luci-app-banip  luci-app-upnp luci-theme-material luci-app-statistics luci-app-ledtrig-usbport luci-app-adblock
+
+
+
+# 系統設置
+uci set system.@system[0].hostname=N5105PC
+uci set system.@system[0].zonename=Asia/Taipei
+uci set system.@system[0].timezone=CST-8
+
+
+
+# 配置橋接設備
+uci set network.@device[0]=device
+uci set network.@device[0].name='br-lan'
+uci set network.@device[0].type='bridge'
+uci del_list network.@device[0].ports='eth0'
+uci del_list network.@device[0].ports='eth1'
+uci del_list network.@device[0].ports='eth2'
+uci add_list network.@device[0].ports='eth0'
+uci add_list network.@device[0].ports='eth1'
+uci add_list network.@device[0].ports='eth2'
+
+# 配置 LAN 接口
+uci set network.lan=interface
+uci set network.lan.device='br-lan'
+uci set network.lan.proto='static'
+uci set network.lan.ipaddr='192.168.80.240'
+uci set network.lan.netmask='255.255.255.0'
+uci set network.lan.ip6assign='60'
+uci set network.lan.ipv6='0'
+
+# 配置 WAN 接口
+uci set network.wan=interface
+uci set network.wan.device='eth3'
+uci set network.wan.proto='pppoe'
+uci set network.wan.ifname='eth3'
+uci set network.wan.username='888888@hinet.net'
+uci set network.wan.password='12345678'
+uci set network.wan.ipv6='0'
+
+# 配置 WAN6 接口
+uci set network.wan6=interface
+uci set network.wan6.device='@wan'
+uci set network.wan6.proto='dhcpv6'
+uci set network.wan6.ifname='eth3'
+uci set network.wan6.reqaddress='try'
+uci set network.wan6.reqprefix='auto'
+
+
+# 应用配置
+uci commit
+
+#/etc/init.d/firewall disable
+/etc/init.d/odhcpd disable
