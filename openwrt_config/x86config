@@ -1,14 +1,14 @@
-base-files busybox ca-bundle dnsmasq-full dropbear e2fsprogs firewall4 fstools grub2-bios-setup kmod-button-hotplug kmod-nft-offload libc libgcc libustream-mbedtls logd mkf2fs mtd netifd nftables odhcp6c odhcpd-ipv6only opkg partx-utils ppp ppp-mod-pppoe procd procd-seccomp procd-ujail uci uclient-fetch urandom-seed urngd kmod-amazon-ena kmod-amd-xgbe kmod-bnx2 kmod-e1000e kmod-e1000 kmod-forcedeth kmod-fs-vfat kmod-igb kmod-igc kmod-ixgbe kmod-r8169 kmod-tg3 kmod-usb-uhci kmod-usb-ohci kmod-usb2 kmod-usb3 luci fuse-utils kmod-macvlan ntfs-3g e2fsprogs resize2fs block-mount lsblk cfdisk UDPspeeder luci-app-mwan3 luci-app-ttyd luci-app-unbound luci-app-banip  luci-app-upnp luci-theme-material luci-app-statistics luci-app-ledtrig-usbport
+base-files busybox ca-bundle dnsmasq-full dropbear e2fsprogs firewall4 fstools grub2-bios-setup kmod-button-hotplug kmod-nft-offload libc libgcc libustream-mbedtls logd mkf2fs mtd netifd nftables odhcp6c odhcpd-ipv6only opkg partx-utils ppp ppp-mod-pppoe procd procd-seccomp procd-ujail uci uclient-fetch urandom-seed urngd kmod-amazon-ena kmod-amd-xgbe kmod-bnx2 kmod-e1000e kmod-e1000 kmod-forcedeth kmod-fs-vfat kmod-igb kmod-igc kmod-ixgbe kmod-r8169 kmod-tg3 kmod-usb-uhci kmod-usb-ohci kmod-usb2 kmod-usb3 luci fuse-utils kmod-macvlan ntfs-3g e2fsprogs resize2fs block-mount lsblk cfdisk UDPspeeder luci-app-mwan3 luci-app-ttyd luci-app-unbound unbound-control luci-app-banip  luci-app-upnp luci-theme-material luci-app-statistics luci-app-ledtrig-usbport
 
 
 # 系統設置
 uci set system.@system[0].hostname=N5105PC
 uci set system.@system[0].zonename=Asia/Taipei
 uci set system.@system[0].timezone=CST-8
-uci delete system.@system[0].ntp.server
-uci add system.@system[0].ntp.server
-uci add_list system.@system[0].ntp.server='0.pool.ntp.org'
-uci add_list system.@system[0].ntp.server='1.pool.ntp.org'
+#uci delete system.@system[0].ntp.server
+#uci add system.@system[0].ntp.server
+#uci add_list system.@system[0].ntp.server='0.pool.ntp.org'
+#uci add_list system.@system[0].ntp.server='1.pool.ntp.org'
 
 
 
