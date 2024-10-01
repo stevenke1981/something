@@ -1,0 +1,30 @@
+luci-app-argon-config \
+luci-app-arpbind \
+luci-app-banip \
+luci-app-commands \
+luci-app-cpulimit \
+luci-app-ddns \
+luci-app-ddns-go \
+luci-app-diskman \
+btrfs-progs \
+lsblk \
+luci-app-hd-idle \
+luci-app-irqbalance \
+luci-app-lorawan-basicstation \
+luci-app-minidlna \
+luci-app-mjpg-streamer \
+luci-app-mwan3 \
+luci-app-netdata \
+luci-app-nfs \
+luci-app-nft-qos \
+luci-app-nlbwmon \
+luci-app-openvpn \
+luci-app-samba4 \
+luci-app-statistics \
+luci-app-tor \
+luci-app-ttyd \
+luci-app-upnp \
+luci-app-vlmcsd \
+luci-app-wol \
+luci-app-zerotier
+
