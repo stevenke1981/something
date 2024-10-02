@@ -1,0 +1,13 @@
+Base system
+　　dnsmasq--包含DNS和DHCP服务。
+　　dnsmasq-dhcpv6--包含DNS和DHCPv6服务。
+　　dnsmasq-full--完整的DNS和DHCP/DHCPv6服务。
+　　　　Build with DHCP support.
+　　　　　Build with DHCPv6 support.
+　　　　Build with DNSSEC support.--域名系统安全扩展（DNSSEC）是一种对 DNS 协议的扩展，它提供了 DNS 数据的完整性和可认证性。`dnsmasq` 支持 DNSSEC，可以验证 DNS 响应的数字签名，从而保护用户免受 DNS 劫持和欺骗攻击。
+　　　　Build with the facility to act as an authoritative DNS server.
+　　　　Build with IPset support.--ipset是Linux内核提供的一种机制，用于定义和存储IP地址或地址范围的集合。
+　　　　Build with Conntrack support.--Linux 内核中的conntrack（连接跟踪）机制用于追踪穿过网络接口的连接状态。
+　　　　Build with NO_ID. (hide *.bind pseudo domain)
+　　　　Build with HAVE_BROKEN_RTC.
+　　　　Build with TFTP server support.--dnsmasq内置了一个TFTP服务器，可以用于网络引导或其他文件传输需求。
