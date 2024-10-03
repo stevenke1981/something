@@ -93,6 +93,10 @@ luci-app-diag-core \
 luci-app-shairplay \
 luci-theme-openwrt-2020 \
 luci-i18n-base-zh-tw \
+docker \
+docker-compose \
+dockerd \
+luci-app-dockerman \
 intel-microcode \
 netdata \
 luci-app-netdata" \
