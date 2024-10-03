@@ -86,6 +86,7 @@ luci-app-tor \
 luci-app-ttyd \
 luci-app-upnp \
 luci-app-wol \
+luci-app-diag-core \
 luci-theme-openwrt-2020 \
 luci-i18n-base-zh-tw \
 intel-microcode \
