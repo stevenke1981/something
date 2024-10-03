@@ -92,3 +92,7 @@ intel-microcode \
 netdata \
 luci-app-netdata" \
 FILES="files"
+
+
+place netdata.ipk to
+/home/steven/openwrt-imagebuilder-23.05.5-x86-64.Linux-x86_64/packages
