@@ -72,6 +72,9 @@ luci \
 luci-app-cloudflared \
 luci-app-commands \
 luci-app-crowdsec-firewall-bouncer \
+crowdsec \
+crowdsec-firewall-bouncer \
+lua-cs-bouncer \
 luci-app-ddns \
 luci-app-firewall \
 luci-app-hd-idle \
