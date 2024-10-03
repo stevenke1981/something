@@ -90,6 +90,5 @@ luci-theme-openwrt-2020 \
 luci-i18n-base-zh-tw \
 intel-microcode \
 netdata \
-luci-app-netdata \
-FILES="files" \
-"
+luci-app-netdata" \
+FILES="files"
