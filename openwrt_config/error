@@ -1,0 +1,5 @@
+root@OpenWrt:~# cscli bouncers add testBouncer
+WARN[2024-10-04T07:22:02Z] can't load CAPI credentials from '/etc/crowdsec/online_api_credentials.yaml' (missing login field)
+INFO[2024-10-04T07:22:02Z] push and pull to Central API disabled
+WARN[2024-10-04T07:22:02Z] You are using sqlite without WAL, this can have a performance impact. If you do not store the database in a network share, set db_config.use_wal to true. Set explicitly to false to disable this warning.
+FATA[2024-10-04T07:22:02Z] unable to create new database client: failed to create SQLite database file "": open : no such file or directory
