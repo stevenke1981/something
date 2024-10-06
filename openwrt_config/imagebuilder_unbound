@@ -5,7 +5,7 @@ base-files \
 busybox \
 ca-bundle \
 -dnsmasq \
-odhcpd-ipv6only \
+-odhcpd-ipv6only \
 dropbear \
 e2fsprogs \
 firewall4 \
