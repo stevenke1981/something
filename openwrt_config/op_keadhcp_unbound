@@ -33,7 +33,7 @@ odhcpd-ipv6only \
 -kea-shell \
 luci-app-unbound \
 unbound-control \
-unbound \
+unbound-daemon \
 opkg \
 partx-utils \
 ppp \
@@ -91,7 +91,7 @@ luci-app-tor \
 luci-app-ttyd \
 luci-app-upnp \
 luci-app-wol \
-luci-app-diag-core \
+-luci-app-diag-core \
 luci-app-shairplay \
 luci-theme-openwrt-2020 \
 intel-microcode \
