@@ -97,6 +97,8 @@ luci-theme-openwrt-2020 \
 intel-microcode \
 netdata \
 luci-app-netdata \
+luci-app-alist \
+nano \
 snort3" \
 FILES="files"
 
