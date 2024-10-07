@@ -1,0 +1,104 @@
+make image \
+PROFILE="generic" \
+PACKAGES="\
+base-files \
+busybox \
+ca-bundle \
+-dnsmasq \
+-odhcpd-ipv6only \
+dropbear \
+e2fsprogs \
+firewall4 \
+fstools \
+grub2-bios-setup \
+kmod-button-hotplug \
+kmod-nft-offload \
+libc \
+libgcc \
+libustream-mbedtls \
+logd \
+mkf2fs \
+mtd \
+netifd \
+nftables \
+kea-admin \
+kea-ctrl \
+kea-dhcp-ddns \
+kea-dhcp4 \
+kea-dhcp6 \
+kea-lfc \
+kea-libs \
+kea-perfdhcp \
+kea-shell \
+opkg \
+partx-utils \
+ppp \
+ppp-mod-pppoe \
+procd \
+procd-seccomp \
+procd-ujail \
+uci \
+uclient-fetch \
+urandom-seed \
+urngd \
+kmod-amazon-ena \
+kmod-amd-xgbe \
+kmod-bnx2 \
+kmod-e1000e \
+kmod-e1000 \
+kmod-forcedeth \
+kmod-fs-vfat \
+kmod-igb \
+kmod-igc \
+kmod-ixgbe \
+kmod-r8169 \
+kmod-tg3 \
+kmod-usb-uhci \
+kmod-usb-ohci \
+kmod-usb2 \
+kmod-usb3 \
+fuse-utils \
+kmod-macvlan \
+ntfs-3g \
+e2fsprogs \
+resize2fs \
+block-mount \
+lsblk \
+cfdisk \
+luci-app-mwan3 \
+luci-app-ttyd \
+luci-app-unbound \
+unbound-control \
+luci-app-banip \
+luci-app-upnp \
+luci-theme-material \
+luci-app-statistics \
+luci-app-ledtrig-usbport \
+luci \
+luci-app-cloudflared \
+luci-app-commands \
+luci-app-ddns \
+luci-app-firewall \
+luci-app-minidlna \
+luci-app-mjpg-streamer \
+luci-app-mwan3 \
+luci-app-openvpn \
+luci-app-opkg \
+luci-app-samba4 \
+luci-app-tor \
+luci-app-ttyd \
+luci-app-upnp \
+luci-app-wol \
+luci-app-diag-core \
+luci-app-shairplay \
+luci-theme-openwrt-2020 \
+intel-microcode \
+netdata \
+luci-app-netdata" \
+FILES="files"
+
+
+place netdata.ipk to
+/home/steven/openwrt-imagebuilder-23.05.5-x86-64.Linux-x86_64/packages
+
+copy config files to  "files/etc/config"
