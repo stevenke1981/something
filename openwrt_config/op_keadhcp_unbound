@@ -30,6 +30,9 @@ kea-lfc \
 kea-libs \
 kea-perfdhcp \
 kea-shell \
+luci-app-unbound \
+unbound-control \
+unbound \
 opkg \
 partx-utils \
 ppp \
@@ -67,8 +70,6 @@ lsblk \
 cfdisk \
 luci-app-mwan3 \
 luci-app-ttyd \
-luci-app-unbound \
-unbound-control \
 luci-app-banip \
 luci-app-upnp \
 luci-theme-material \
