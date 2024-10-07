@@ -94,7 +94,8 @@ luci-app-shairplay \
 luci-theme-openwrt-2020 \
 intel-microcode \
 netdata \
-luci-app-netdata" \
+luci-app-netdata \
+snort3" \
 FILES="files"
 
 
