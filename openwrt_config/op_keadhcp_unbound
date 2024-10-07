@@ -83,7 +83,6 @@ luci-app-ddns \
 luci-app-firewall \
 luci-app-minidlna \
 luci-app-mjpg-streamer \
-luci-app-mwan3 \
 luci-app-openvpn \
 luci-app-opkg \
 luci-app-samba4 \
