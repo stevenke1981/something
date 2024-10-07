@@ -4,8 +4,6 @@ PACKAGES="\
 base-files \
 busybox \
 ca-bundle \
--dnsmasq \
--odhcpd-ipv6only \
 dropbear \
 e2fsprogs \
 firewall4 \
@@ -21,6 +19,9 @@ mkf2fs \
 mtd \
 netifd \
 nftables \
+-dnsmasq \
+-odhcpd-ipv6only \
+odhcpd \
 kea-admin \
 kea-ctrl \
 kea-dhcp-ddns \
