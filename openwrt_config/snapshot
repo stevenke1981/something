@@ -20,7 +20,7 @@ mtd \
 netifd \
 nftables \
 dnsmasq \
-odhcpd-ipv6only \
+-odhcpd-ipv6only \
 -odhcpd \
 -kea-admin \
 -kea-ctrl \
