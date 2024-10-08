@@ -93,6 +93,9 @@ luci-app-wol \
 -luci-app-diag-core \
 -luci-app-shairplay \
 luci-theme-openwrt-2020 \
+luci-app-alist \
+luci-app-coovachilli \
+luci-app-cshark \
 intel-microcode \
 -netdata \
 -luci-app-netdata \
