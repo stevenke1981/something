@@ -21,3 +21,7 @@ uci set system.@system[0].timezone=CST-8
 # 配置LAN IP地址
 uci set network.lan.ipaddr='192.168.1.1'
 uci commit
+
+
+
+base-files busybox ca-bundle dnsmasq dropbear firewall4 fstools kmod-crypto-hw-safexcel kmod-gpio-button-hotplug kmod-leds-gpio kmod-mt7915e kmod-nft-offload kmod-phy-aquantia libc libgcc libustream-mbedtls logd mtd netifd nftables odhcp6c odhcpd-ipv6only opkg ppp ppp-mod-pppoe procd procd-seccomp procd-ujail uboot-envtools uci uclient-fetch urandom-seed urngd wpad-mbedtls kmod-mt7981-firmware mt7981-wo-firmware kmod-usb3 e2fsprogs f2fsck mkf2fs luci luci-theme-material luci-i18n-base-zh-tw
