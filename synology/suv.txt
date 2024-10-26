@@ -1,0 +1,70 @@
+// ==UserScript==
+// @name         監控中心自動登入
+// @namespace    http://localhost
+// @version      1.0
+// @description  自動登入並進入監控中心
+// @match        http://192.168.80.168:9900/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // 設定登入資訊
+    const credentials = {
+        username: '你的帳號',  // 替換成你的帳號
+        password: '你的密碼'   // 替換成你的密碼
+    };
+
+    // 自動登入函數
+    async function autoLogin() {
+        try {
+            // 執行登入請求
+            const response = await fetch('http://192.168.80.168:9900/webman/login.cgi', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    username: credentials.username,
+                    passwd: credentials.password,
+                    enable_syno_token: 'yes'
+                }),
+                credentials: 'include'
+            });
+
+            const data = await response.json();
+
+            if (data.success && data.SynoToken) {
+                console.log('登入成功，取得 SynoToken');
+                // 使用獲得的 SynoToken 進入監控中心
+                const surveillanceUrl = `http://192.168.80.168:9900/webman/3rdparty/SurveillanceStation/?launchApp=SYNO.SS.App.VideoViewerVue.Instance&SynoToken=${data.SynoToken}`;
+                window.location.href = surveillanceUrl;
+            } else {
+                console.error('登入失敗:', data);
+            }
+        } catch (error) {
+            console.error('登入過程發生錯誤:', error);
+        }
+    }
+
+    // 檢查目前是否在登入頁面或需要重新登入
+    function checkLoginStatus() {
+        // 如果 URL 包含 login.cgi 或是在根目錄，執行登入
+        if (window.location.pathname === '/' || 
+            window.location.pathname.includes('login.cgi') || 
+            !document.cookie.includes('SynoToken')) {
+            console.log('需要登入，開始執行自動登入');
+            autoLogin();
+        }
+        // 如果已經在監控站頁面但沒有 SynoToken，重新登入
+        else if (window.location.pathname.includes('SurveillanceStation') && 
+                 !new URLSearchParams(window.location.search).get('SynoToken')) {
+            console.log('監控站頁面但缺少 Token，重新登入');
+            autoLogin();
+        }
+    }
+
+    // 頁面載入完成後執行
+    window.addEventListener('load', checkLoginStatus);
+})();
