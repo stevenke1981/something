@@ -21,3 +21,7 @@ uci set system.@system[0].timezone=CST-8
 # 配置LAN IP地址
 uci set network.lan.ipaddr='192.168.1.1'
 uci commit
+
+
+
+nano luci-theme-material luci-i18n-base-zh-tw
