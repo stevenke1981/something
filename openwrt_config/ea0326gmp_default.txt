@@ -1,0 +1,23 @@
+uci set wireless.radio1.channel=149
+uci set wireless.radio1.disabled=0
+uci set wireless.radio1.country=TW
+uci set wireless.default_radio1.ssid=EA0326GMP_5G
+uci set wireless.default_radio1.encryption=psk2
+uci set wireless.default_radio1.key=012345678
+uci set wireless.default_radio1.time_zone=CST-8
+
+uci set wireless.radio0.channel=1
+uci set wireless.radio0.disabled=0
+uci set wireless.radio0.country=TW
+uci set wireless.default_radio0.ssid=EA0326GMP
+uci set wireless.default_radio0.encryption=psk2
+uci set wireless.default_radio0.key=012345678
+uci set wireless.default_radio0.time_zone=CST-8
+
+uci set system.@system[0].hostname=EA0326GMP
+uci set system.@system[0].zonename=Asia/Taipei
+uci set system.@system[0].timezone=CST-8
+
+# 配置LAN IP地址
+uci set network.lan.ipaddr='192.168.1.1'
+uci commit
