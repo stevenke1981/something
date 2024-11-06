@@ -1,0 +1,14 @@
+# 允許本地網段的所有訪問
+pattern readwrite 192.168.80.0/24 #
+
+# 系統主題的訪問限制
+pattern read $SYS/#
+
+# 允許特定主題的讀寫權限
+pattern readwrite sensors/#
+pattern readwrite home/#
+pattern readwrite status/#
+
+# 如果需要指定用戶權限，使用以下格式：
+# user username
+# topic readwrite topic/path/#
