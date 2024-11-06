@@ -24,7 +24,7 @@ uci commit
 
 
 
-nano luci-theme-material luci-i18n-base-zh-tw lua-mosquitto luci-app-mosquitto uci-app-mosquitto-zh-tw luci-app-zerotier luci-app-wol luci-app-watchcat luci-app-wifischedule luci-app-ddns luci-app-upnp luci-app-nlbwmon luci-app-statistics \
+nano luci-theme-material luci-i18n-base-zh-tw lua-mosquitto luci-app-mosquitto luci-app-mosquitto-zh-tw luci-app-zerotier luci-app-wol luci-app-watchcat luci-app-wifischedule luci-app-ddns luci-app-upnp luci-app-nlbwmon luci-app-statistics \
     collectd \
     collectd-mod-cpu \
     collectd-mod-memory \
