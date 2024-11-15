@@ -1,0 +1,37 @@
+uci set wireless.radio1.channel=149
+uci set wireless.radio1.disabled=0
+uci set wireless.radio1.country=TW
+uci set wireless.default_radio1.ssid=360T7_5G
+uci set wireless.default_radio1.encryption=psk2
+uci set wireless.default_radio1.key=012345678
+uci set wireless.default_radio1.time_zone=CST-8
+
+uci set wireless.radio0.channel=1
+uci set wireless.radio0.disabled=0
+uci set wireless.radio0.country=TW
+uci set wireless.default_radio0.ssid=360T7
+uci set wireless.default_radio0.encryption=psk2
+uci set wireless.default_radio0.key=012345678
+uci set wireless.default_radio0.time_zone=CST-8
+
+uci set system.@system[0].hostname=360T7
+uci set system.@system[0].zonename=Asia/Taipei
+uci set system.@system[0].timezone=CST-8
+
+# 配置LAN IP地址
+uci set network.lan.ipaddr='192.168.1.1'
+uci commit
+
+
+
+nano luci-theme-material luci-i18n-base-zh-tw lua-mosquitto luci-app-mosquitto luci-app-mosquitto-zh-tw luci-app-zerotier luci-app-wol luci-app-watchcat luci-app-wifischedule luci-app-ddns luci-app-upnp luci-app-nlbwmon luci-app-statistics \
+    collectd \
+    collectd-mod-cpu \
+    collectd-mod-memory \
+    collectd-mod-interface \
+    collectd-mod-load \
+    collectd-mod-network \
+    collectd-mod-ping \
+    collectd-mod-rrdtool \
+    collectd-mod-thermal \
+    collectd-mod-wireless
