@@ -1,0 +1,6 @@
+1）OPKG 更新#更新opkg源
+（2）opkg install kmod-mtd-rw #安装允许mtd操作的内核模块
+（3）insmod mtd-rw.ko i_want_a_brick=1 #安装内核模块，暫時賦予對所有分區的rw許可權
+（4）opkg list-installed |grep kmod-mtd #查看安装情况，會返回當前安裝的版本號，這就證明你安裝到位了;
+
+此時分區已經解鎖，可以進行操作
