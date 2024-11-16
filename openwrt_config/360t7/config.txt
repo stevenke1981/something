@@ -24,5 +24,5 @@ uci commit
 
 
 
-nano luci-theme-material luci-i18n-base-zh-tw lua-mosquitto luci-app-mosquitto luci-app-wol luci-app-watchcat luci-app-ddns luci-app-upnp luci-app-nlbwmon luci-app-statistics
+kmod-mtd-rw nano luci-theme-material luci-i18n-base-zh-tw lua-mosquitto luci-app-mosquitto luci-app-wol luci-app-watchcat luci-app-ddns luci-app-upnp luci-app-nlbwmon luci-app-statistics 
   
