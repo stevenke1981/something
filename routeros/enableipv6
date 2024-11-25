@@ -1,0 +1,102 @@
+# RouterOS IPv6-NAT 修改後配置腳本
+
+## 1. PPPoE 客戶端配置
+```shell
+/interface pppoe-client
+add disabled=no \
+    interface=ether1 \
+    name=PPPoE_WAN \
+    user=<Hinet 撥接帳號> \
+    password=<Hinet 撥接密碼>
+```
+
+## 2. DHCP 客戶端配置
+```shell
+/ipv6 dhcp-client
+add interface=PPPoE_WAN \
+    pool-name=pppoe-wan-dhcp-pool \
+    request=prefix
+```
+
+## 3. 外部位址配置 (GUA)
+```shell
+/ipv6 address
+add address=::1/64 \
+    advertise=no \
+    from-pool=pppoe-wan-dhcp-pool \
+    interface=PPPoE_WAN
+```
+
+## 4. 路由配置
+```shell
+/ipv6 route
+add disabled=no \
+    distance=1 \
+    dst-address=::/0 \
+    gateway=PPPoE_WAN \
+    routing-table=main \
+    scope=30 \
+    suppress-hw-offload=no \
+    target-scope=10
+```
+
+## 5. 內部位址配置 (ULA)
+使用您的 LAN bridge MAC 地址 (7C:2B:E1:12:F3:DD) 生成 ULA
+```shell
+/ipv6 address
+add address=fd14:b54a:ab1c::1/64 \
+    from-pool=pppoe-lan-dhcp-pool \
+    interface=LAN
+```
+
+## 6. DHCP 池配置
+```shell
+/ipv6 pool
+add name=pppoe-lan-dhcp-pool \
+    prefix=fd14:b54a:ab1c::/64 \
+    prefix-length=64
+```
+
+## 7. DHCP 服務器配置
+```shell
+/ipv6 dhcp-server
+add address-pool=pppoe-lan-dhcp-pool \
+    interface=LAN \
+    name=dhcpv6-server
+```
+
+## 8. 鄰居發現協議(ND)配置
+```shell
+# 停用預設 ND
+/ipv6 nd
+set [find default=yes] disabled=yes
+
+# 建立新 ND
+/ipv6 nd
+add interface=LAN \
+    other-configuration=yes
+
+# 設定 ND 生命週期
+/ipv6 nd prefix default
+set preferred-lifetime=10m \
+    valid-lifetime=30m
+```
+
+## 9. NAT 配置
+```shell
+/ipv6 firewall nat
+add action=masquerade \
+    chain=srcnat \
+    out-interface=PPPoE_WAN
+```
+
+## 10. Mangle 配置
+```shell
+/ipv6 firewall mangle
+add action=change-mss \
+    chain=forward \
+    new-mss=clamp-to-pmtu \
+    passthrough=yes \
+    protocol=tcp \
+    tcp-flags=syn
+```
