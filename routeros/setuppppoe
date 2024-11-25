@@ -20,8 +20,7 @@ add bridge=LAN interface=ether3
 
 # WAN口設定
 /interface pppoe-client
-add interface=ether4 name=PPPoE_WAN disabled=no user=86396068@hinet.net password=787441
-
+add interface=ether4 name=PPPoE_WAN disabled=no user=86396068@hinet.net password=787441 disabled=no keepalive-timeout=60 add-default-route=yes
 # IP位址設定
 /ip address
 add address=192.168.80.240/24 interface=LAN
@@ -53,7 +52,10 @@ set allow-remote-requests=yes servers=168.95.1.1,8.8.8.8
 set enabled=yes servers=pool.ntp.org
 
 # 防火牆預設規則
-/ip firewall filter
-add chain=input action=accept protocol=icmp
-add chain=input action=accept connection-state=established,related
-add chain=input action=drop connection-state=invalid
+/ip firewall filter add chain=input action=drop protocol=icmp
+/ip firewall filter add chain=input action=drop connection-state=invalid
+/ip firewall filter add chain=input action=accept connection-state=established,related
+
+/ip firewall nat
+add chain=srcnat out-interface=PPPoE_WAN action=masquerade
+
