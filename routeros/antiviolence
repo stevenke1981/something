@@ -12,3 +12,11 @@
 /ip firewall filter add action=add-src-to-address-list address-list=drop_scan_ip address-list-timeout=2w chain=input protocol=tcp src-address-list=!rfc1918-address-list tcp-flags=fin,psh,urg,!syn,!rst,!ack
 /ip firewall filter add action=add-src-to-address-list address-list=drop_scan_ip address-list-timeout=2w chain=input protocol=tcp src-address-list=!rfc1918-address-list tcp-flags=fin,syn,rst,psh,ack,urg
 /ip firewall filter add action=add-src-to-address-list address-list=drop_scan_ip address-list-timeout=2w chain=input protocol=tcp src-address-list=!rfc1918-address-list tcp-flags=!fin,!syn,!rst,!psh,!ack,!urg
+
+#Port Knock
+/ip firewall filter add action=add-src-to-address-list address-list=Knock_1m address-list-timeout=1m chain=input comment="Port Knock" dst-port=44444 protocol=tcp
+/ip firewall filter add action=add-src-to-address-list address-list=Knock_10m address-list-timeout=10m chain=input dst-port=55555 protocol=tcp src-address-list=Knock_1m
+/ip firewall filter add action=add-src-to-address-list address-list=Knock_60m address-list-timeout=1h chain=input dst-port=33333 protocol=tcp src-address-list=Knock_10m
+
+# 在要被保護的 NAT rule 中設定 src-address-list=list=Knock_60m
+/ip firewall nat add action=dst-nat chain=dstnat dst-port=80 in-interface=pppoe1 protocol=tcp src-address-list=Knock_60m to-addresses=192.168.80.240 to-ports=80
