@@ -3,16 +3,22 @@
 /system logging action set 0 memory-lines=1000
 
 # 介面設定
-/interface bridge
-add name=LAN protocol-mode=none
-/interface bridge port
-add bridge=LAN interface=ether1
-add bridge=LAN interface=ether2
-add bridge=LAN interface=ether3
+/interface ethernet
+set [ find where name=ether9 ] name=ether1
+set [ find where name=ether10 ] name=ether2
+set [ find where name=ether11 ] name=ether3
+set [ find where name=ether12 ] name=ether4
+
+[admin@N5105-Router] > /interface bridgeadd name=LAN protocol-mode=none/interface 
+bridge portadd bridge=LAN interface=ether1add bridge=LAN interface=ether2add bridg
+e=LAN interface=ether3
+bad command name bridgeadd (line 1 column 12)
+
+
 
 # WAN口設定
 /interface pppoe-client
-add interface=ether4 name=PPPoE_WAN disabled=no user=88888@hinet.net password=012345678
+add interface=ether4 name=PPPoE_WAN disabled=no user=86396068@hinet.net password=787441
 
 # IP位址設定
 /ip address
