@@ -1,3 +1,6 @@
+#enable container funtion
+/system/device-mode/update container=yes
+
 # 基礎系統設定
 /system identity set name="N5105-Router"
 /system logging action set 0 memory-lines=1000
