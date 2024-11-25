@@ -39,6 +39,9 @@
 
 
 #設定routeros的dns為adguard home
-/ip dhcp-server network set 0 dns-server=172.17.0.2 verify-doh-cert=yes
+/ip dhcp-server network set 0 dns-server=172.17.0.2 
 
-
+/ip dns \
+set \
+servers=172.17.0.2 \
+verify-doh-cert=yes
