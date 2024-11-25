@@ -65,9 +65,27 @@ set enabled=yes servers=pool.ntp.org
 /ip firewall nat
 add chain=srcnat out-interface=PPPoE_WAN action=masquerade
 
-#阻擋所有從WAN口（PPPoE_WAN介面）進入的連接
-
+##阻擋所有從WAN口（PPPoE_WAN介面）進入的連接
 /ip firewall filter add chain=input action=drop in-interface=PPPoE_WAN comment="Drop WAN input"
+
+## 防止端口掃描
+/ip firewall filter
+add chain=input action=drop protocol=tcp psd=21,3s,3,1 comment="Drop port scan"
+
+## 防止SYN洪水攻擊
+/ip firewall filter add chain=input action add chain=input action=add-src-to-address-list protocol=tcp tcp-flags=syn connection-limit=30,32 address-list=blocked-syn comment="Detect SYN flood"
+/ip firewall filter add chain=input action=drop src-address-list=blocked-syn comment="Drop detected SYN flood"
+
+## 防止SSH暴力破解
+/ip firewall filter add chain=input action=add-src-to-address-list protocol=tcp dst-port=22 connection-limit=3,32 address-list=blocked-ssh comment="Detect SSH brute force"
+/ip firewall filter add chain=input action=drop src-address-list=blocked-ssh comment="Drop detected SSH brute force"
+
+# 快速通道FastTrack
+/ip firewall filter
+add chain=forward action=fasttrack-connection connection-state=established,related comment="Enable FastTrack"
+/ip firewall filter
+add chain=forward action=accept connection-state=established,related comment="Ensure established and related traffic is not dropped"
+
 
 #關閉telnet服務
 /ip service disable telnet
