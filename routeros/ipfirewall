@@ -1,34 +1,48 @@
 /ip firewall filter
-
-# 1. 允許來自 LAN 的所有輸入流量
-add action=accept chain=input in-interface=LAN comment="Allow all LAN input"
-
-# 2. 允許已建立和相關的連線 (input chain)
+# Input Chain Rules
+# 1. Allow established, related, and untracked connections
 add action=accept chain=input connection-state=established,related,untracked comment="Allow established/related/untracked connections"
 
-# 3. 丟棄無效連線 (input chain)
+# 2. Drop invalid connections
 add action=drop chain=input connection-state=invalid comment="Drop invalid connections"
 
-# 4. 允許 ICMP 流量 (例如 ping)
-add action=accept chain=input protocol=icmp comment="Allow ICMP"
-
-# 5. 允許本機回環地址的流量
+# 3. Allow localhost traffic
 add action=accept chain=input dst-address=127.0.0.1 comment="Allow localhost traffic"
 
-# 6. 丟棄來自 WAN 的所有輸入流量
+# 4. LAN Input Rules (Specific Services)
+add action=accept chain=input protocol=icmp in-interface=LAN comment="Allow ICMP from LAN"
+add action=accept chain=input protocol=tcp dst-port=22 in-interface=LAN comment="Allow SSH from LAN"
+add action=accept chain=input protocol=tcp dst-port=21 in-interface=LAN comment="Allow FTP from LAN"
+add action=accept chain=input protocol=tcp dst-port=80,443 in-interface=LAN comment="Allow Web management from LAN"
+add action=accept chain=input in-interface=LAN comment="Allow all other LAN input"
+
+# 5. WAN Input Rules (Block Specific Services)
+add action=drop chain=input protocol=icmp in-interface=PPPoE_WAN comment="Block ICMP from WAN"
+add action=drop chain=input protocol=tcp dst-port=22 in-interface=PPPoE_WAN comment="Block SSH from WAN"
+add action=drop chain=input protocol=tcp dst-port=21 in-interface=PPPoE_WAN comment="Block FTP from WAN"
+add action=drop chain=input protocol=tcp dst-port=80,443 in-interface=PPPoE_WAN comment="Block Web management from WAN"
 add action=drop chain=input in-interface=PPPoE_WAN comment="Drop WAN input"
 
-# 7. FastTrack 已建立和相關的連線 (forward chain)
+# Forward Chain Rules
+# 6. FastTrack for established and related connections
 add action=fasttrack-connection chain=forward connection-state=established,related hw-offload=yes comment="Enable FastTrack"
 
-# 8. 允許已建立和相關的連線 (forward chain)
+# 7. Allow established, related, and untracked connections
 add action=accept chain=forward connection-state=established,related,untracked comment="Allow established/related/untracked connections"
 
-# 9. 丟棄無效連線 (forward chain)
+# 8. Drop invalid connections
 add action=drop chain=forward connection-state=invalid comment="Drop invalid connections"
 
-# 10. 丟棄來自 WAN 的未被目標 NAT 的新連線 (forward chain)
+# 9. Block new forward connections from WAN without destination NAT
 add action=drop chain=forward connection-nat-state=!dstnat connection-state=new in-interface=PPPoE_WAN comment="Drop new forward from WAN without dstnat"
 
-# 11. 丟棄所有其他輸入流量 (input chain默認丟棄)
+# 10. Default drop for input chain
 add action=drop chain=input comment="Drop all other input"
+
+/ip firewall nat
+# 11. NAT Masquerade for PPPoE_WAN
+add action=masquerade chain=srcnat out-interface=PPPoE_WAN comment="Masquerade for PPPoE_WAN"
+
+# 12. DNS Redirection
+add action=dst-nat chain=dstnat protocol=udp dst-port=53 to-addresses=172.17.0.2 to-ports=53 comment="Redirect UDP DNS to 172.17.0.2"
+add action=dst-nat chain=dstnat protocol=tcp dst-port=53 to-addresses=172.17.0.2 to-ports=53 comment="Redirect TCP DNS to 172.17.0.2"
