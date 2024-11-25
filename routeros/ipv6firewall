@@ -1,0 +1,17 @@
+# 清空現有的 IPv6 防火牆規則
+/ipv6 firewall filter remove [find]
+
+# 允許 ICMPv6 流量 (必要的網路功能)
+/ipv6 firewall filter add chain=input action=accept protocol=icmpv6 comment="Accept ICMPv6"
+
+# 允許本地鏈路流量 (例如鄰居發現協議)
+/ipv6 firewall filter add chain=input action=accept in-interface=PPPoE_WAN comment="Allow local link traffic"
+
+# 阻擋所有其他進入路由器的流量
+/ipv6 firewall filter add chain=input action=drop in-interface=PPPoE_WAN comment="Drop all other input from PPPoE"
+
+# 允許內部網絡到外部的轉發流量
+/ipv6 firewall filter add chain=forward action=accept in-interface=LAN out-interface=PPPoE_WAN comment="Allow LAN to WAN traffic"
+
+# 阻擋所有未經授權的轉發流量
+/ipv6 firewall filter add chain=forward action=drop comment="Drop all other forwarded traffic"
