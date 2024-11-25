@@ -59,3 +59,11 @@ set enabled=yes servers=pool.ntp.org
 /ip firewall nat
 add chain=srcnat out-interface=PPPoE_WAN action=masquerade
 
+#阻擋所有從WAN口（PPPoE_WAN介面）進入的連接
+
+/ip firewall filter add chain=input action=drop in-interface=PPPoE_WAN comment="Drop WAN input"
+
+#關閉telnet服務
+/ip service disable telnet
+/ip service disable api
+/ip service disable api-ssl
