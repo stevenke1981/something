@@ -1,0 +1,29 @@
+# 建立 veth 接口
+/interface/veth/add name=veth1 address=172.17.0.2/24 gateway=172.17.0.1
+
+# 創建容器橋接網絡
+/interface/bridge/add name=containers
+/ip/address/add address=172.17.0.1/24 interface=containers
+/interface/bridge/port/add bridge=containers interface=veth1
+
+# 設置 NAT 以便容器能夠訪問外部網絡
+/ip/firewall/nat/add chain=srcnat action=masquerade src-address=172.17.0.0/24
+
+# 定義環境變數 (選擇性，僅示範時區配置)
+/container/envs/add name=adguard_envs key=TZ value="Asia/Taipei"
+
+# 定義掛載點
+/container/mounts/add name=adguard_conf src=disk1/adguard_conf dst=/opt/adguardhome/conf
+/container/mounts/add name=adguard_work src=disk1/adguard_work dst=/opt/adguardhome/work
+
+# 配置容器的 Docker 映像倉庫
+/container/config/set registry-url=https://registry-1.docker.io tmpdir=disk1/pull
+
+# 添加 AdGuard Home 容器
+/container/add remote-image=adguard/adguardhome:latest \
+    interface=veth1 root-dir=disk1/adguard \
+    mounts=adguard_conf,adguard_work \
+    envlist=adguard_envs
+
+# 檢查容器狀態 (可選)
+/container/print
