@@ -1,0 +1,34 @@
+/ip firewall filter
+
+# 1. 允許來自 LAN 的所有輸入流量
+add action=accept chain=input in-interface=LAN comment="Allow all LAN input"
+
+# 2. 允許已建立和相關的連線 (input chain)
+add action=accept chain=input connection-state=established,related,untracked comment="Allow established/related/untracked connections"
+
+# 3. 丟棄無效連線 (input chain)
+add action=drop chain=input connection-state=invalid comment="Drop invalid connections"
+
+# 4. 允許 ICMP 流量 (例如 ping)
+add action=accept chain=input protocol=icmp comment="Allow ICMP"
+
+# 5. 允許本機回環地址的流量
+add action=accept chain=input dst-address=127.0.0.1 comment="Allow localhost traffic"
+
+# 6. 丟棄來自 WAN 的所有輸入流量
+add action=drop chain=input in-interface=PPPoE_WAN comment="Drop WAN input"
+
+# 7. FastTrack 已建立和相關的連線 (forward chain)
+add action=fasttrack-connection chain=forward connection-state=established,related hw-offload=yes comment="Enable FastTrack"
+
+# 8. 允許已建立和相關的連線 (forward chain)
+add action=accept chain=forward connection-state=established,related,untracked comment="Allow established/related/untracked connections"
+
+# 9. 丟棄無效連線 (forward chain)
+add action=drop chain=forward connection-state=invalid comment="Drop invalid connections"
+
+# 10. 丟棄來自 WAN 的未被目標 NAT 的新連線 (forward chain)
+add action=drop chain=forward connection-nat-state=!dstnat connection-state=new in-interface=PPPoE_WAN comment="Drop new forward from WAN without dstnat"
+
+# 11. 丟棄所有其他輸入流量 (input chain默認丟棄)
+add action=drop chain=input comment="Drop all other input"
