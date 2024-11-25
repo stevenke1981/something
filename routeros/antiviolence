@@ -1,0 +1,14 @@
+#防火牆規則加在 RouterOS 的預設規則之前
+
+/ip firewall address-list add address=10.0.0.0/8 list=rfc1918-address-list
+/ip firewall address-list add address=172.16.0.0/12 list=rfc1918-address-list
+/ip firewall address-list add address=192.168.0.0/16 list=rfc1918-address-list
+
+/ip firewall filter add action=drop chain=input comment="Port Scan" src-address-list=drop_scan_ip
+/ip firewall filter add action=add-src-to-address-list address-list=drop_scan_ip address-list-timeout=2w chain=input protocol=tcp psd=21,3s,3,1 src-address-list=!rfc1918-address-list
+/ip firewall filter add action=add-src-to-address-list address-list=drop_scan_ip address-list-timeout=2w chain=input protocol=tcp src-address-list=!rfc1918-address-list tcp-flags=fin,!syn,!rst,!psh,!ack,!urg
+/ip firewall filter add action=add-src-to-address-list address-list=drop_scan_ip address-list-timeout=2w chain=input protocol=tcp src-address-list=!rfc1918-address-list tcp-flags=fin,syn
+/ip firewall filter add action=add-src-to-address-list address-list=drop_scan_ip address-list-timeout=2w chain=input protocol=tcp src-address-list=!rfc1918-address-list tcp-flags=syn,rst
+/ip firewall filter add action=add-src-to-address-list address-list=drop_scan_ip address-list-timeout=2w chain=input protocol=tcp src-address-list=!rfc1918-address-list tcp-flags=fin,psh,urg,!syn,!rst,!ack
+/ip firewall filter add action=add-src-to-address-list address-list=drop_scan_ip address-list-timeout=2w chain=input protocol=tcp src-address-list=!rfc1918-address-list tcp-flags=fin,syn,rst,psh,ack,urg
+/ip firewall filter add action=add-src-to-address-list address-list=drop_scan_ip address-list-timeout=2w chain=input protocol=tcp src-address-list=!rfc1918-address-list tcp-flags=!fin,!syn,!rst,!psh,!ack,!urg
