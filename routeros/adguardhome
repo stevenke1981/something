@@ -44,3 +44,16 @@
 /ip dns set servers=172.17.0.2,8.8.8.8,1.1.1.1
 /ip dhcp-server network set 0 dns-server=172.17.0.2,8.8.8.8,1.1.1.1
 
+#設定DNS重新導向
+/ip dns set allow-remote-requests=no
+
+/ip firewall nat
+add action=dst-nat chain=dstnat dst-port=53 in-interface-list=LAN protocol=udp to-addresses=172.17.0.2 to-ports=53
+add action=dst-nat chain=dstnat dst-port=53 in-interface-list=LAN protocol=tcp to-addresses=172.17.0.2 to-ports=53
+
+#阻止LAN設備繞過AdGuard Home直接查詢外部DNS服務
+/ip firewall filter
+add chain=forward action=drop protocol=udp dst-port=53 out-interface-list=PPPoE_WAN
+add chain=forward action=drop protocol=tcp dst-port=53 out-interface-list=PPPoE_WAN
+
+
