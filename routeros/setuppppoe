@@ -89,6 +89,9 @@ set enabled=yes servers=pool.ntp.org
 # 預設拒絕所有未匹配流量 (Input)
 /ip firewall filter add chain=input action=drop comment="Drop all other input"
 
+/ip firewall filter add chain=input action=accept in-interface=LAN comment="Allow all LAN input"
+
+
 
 #關閉telnet服務
 /ip service disable telnet
