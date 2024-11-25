@@ -37,3 +37,8 @@
 #設定port轉發
 /ip firewall nat add chain=dstnat dst-address=192.168.80.240 protocol=tcp dst-port=3000 action=dst-nat to-addresses=172.17.0.2 to-ports=3000
 
+
+#設定routeros的dns為adguard home
+/ip dhcp-server network set 0 dns-server=172.17.0.2 verify-doh-cert=yes
+
+
