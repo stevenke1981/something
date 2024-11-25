@@ -1,0 +1,48 @@
+# 基礎系統設定
+/system identity set name="N5105-Router"
+/system logging action set 0 memory-lines=1000
+
+# 介面設定
+/interface bridge
+add name=LAN protocol-mode=none
+/interface bridge port
+add bridge=LAN interface=ether1
+add bridge=LAN interface=ether2
+add bridge=LAN interface=ether3
+
+# WAN口設定
+/interface pppoe-client
+add interface=ether4 name=PPPoE_WAN disabled=no user=88888@hinet.net password=012345678
+
+# IP位址設定
+/ip address
+add address=192.168.80.240/24 interface=LAN
+add address=0.0.0.0/0 interface=PPPoE_WAN
+
+# DHCP伺服器設定
+/ip pool
+add name=LAN-POOL ranges=192.168.80.30-192.168.80.200
+/ip dhcp-server
+add name=LAN-DHCP interface=LAN address-pool=LAN-POOL disabled=no
+/ip dhcp-server network
+add address=192.168.80.0/24 gateway=192.168.80.240
+
+# NAT與路由設定
+/ip firewall nat
+add chain=srcnat action=masquerade out-interface=PPPoE_WAN
+/ip route
+add gateway=PPPoE_WAN
+
+# DNS設定
+/ip dns
+set allow-remote-requests=yes servers=168.95.1.1,8.8.8.8
+
+# 系統時間設定
+/system ntp client
+set enabled=yes servers=pool.ntp.org
+
+# 防火牆預設規則
+/ip firewall filter
+add chain=input action=accept protocol=icmp
+add chain=input action=accept connection-state=established,related
+add chain=input action=drop connection-state=invalid
