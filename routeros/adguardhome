@@ -31,6 +31,8 @@
 #如果沒有自動啟動
 /container/start 0
 
+#開機自動啟動
+/container set 0 start-on-boot=yes
 
 #設定port轉發
 /ip firewall nat add chain=dstnat dst-address=192.168.80.240 protocol=tcp dst-port=3000 action=dst-nat to-addresses=172.17.0.2 to-ports=3000
