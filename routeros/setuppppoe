@@ -9,11 +9,13 @@ set [ find where name=ether10 ] name=ether2
 set [ find where name=ether11 ] name=ether3
 set [ find where name=ether12 ] name=ether4
 
-[admin@N5105-Router] > /interface bridgeadd name=LAN protocol-mode=none/interface 
-bridge portadd bridge=LAN interface=ether1add bridge=LAN interface=ether2add bridg
-e=LAN interface=ether3
-bad command name bridgeadd (line 1 column 12)
+/interface bridge 
+add name=LAN protocol-mode=none
 
+/interface bridge port
+add bridge=LAN interface=ether1
+add bridge=LAN interface=ether2
+add bridge=LAN interface=ether3
 
 
 # WAN口設定
