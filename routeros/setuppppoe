@@ -1,4 +1,7 @@
 #enable container funtion
+1. you need download container.npk
+2. upload container.npk and reboot.
+
 /system/device-mode/update container=yes
 
 # 基礎系統設定
