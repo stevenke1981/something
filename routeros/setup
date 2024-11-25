@@ -1,0 +1,66 @@
+# 基礎網路橋接設定
+/interface bridge add name=LAN protocol-mode=none
+/interface bridge port add bridge=LAN interface=ether1
+/interface bridge port add bridge=LAN interface=ether2
+/interface bridge port add bridge=LAN interface=ether3
+
+# PPPoE 設定
+/interface pppoe-client
+add interface=ether4 name=PPPoE_WAN disabled=no user=86396068@hinet.net password=787441 add-default-route=yes use-peer-dns=yes
+
+# LAN IP設定
+/ip address add address=192.168.80.240/24 interface=LAN
+
+# DHCP 客戶端設定（備用，如果PPPoE未啟用時）
+/ip dhcp-client add interface=ether4 disabled=yes
+
+# DNS 設定
+/ip dns 
+set allow-remote-requests=yes servers=168.95.1.1,8.8.8.8 
+set use-doh=no
+
+# IPv6 設定
+/ipv6 settings
+set disable-ipv6=no max-neighbor-entries=8192
+set forward=yes accept-redirects=no accept-router-advertisements=yes
+
+# IPv6 DHCP 客戶端設定（自動取得IPv6）
+/ipv6 dhcp-client
+add interface=PPPoE_WAN pool-name=PPPoE_WAN_v6 pool-prefix-length=64 use-peer-dns=yes
+
+# IPv6 位址池設定
+/ipv6 pool
+add name=LAN_IPv6_POOL prefix=::1/64 prefix-length=64
+
+# IPv6 DHCP 伺服器設定
+/ipv6 dhcp-server
+add address-pool=LAN_IPv6_POOL interface=LAN name=LAN_DHCPv6
+/ipv6 nd
+set [ find default=yes ] interface=LAN managed-address-configuration=yes other-configuration=yes
+
+# 設定 IPv4 優先
+/ip settings
+set ip-forward=yes rp-filter=loose tcp-syncookies=yes
+
+/ipv6 settings
+set forward=yes
+
+# 路由優先順序設定
+/routing rule
+add dst-address=0.0.0.0/0 action=lookup-only-in-table table=main
+add dst-address=::/0 action=lookup-only-in-table table=main priority=10
+
+# NAT 設定
+/ip firewall nat
+add chain=srcnat action=masquerade out-interface=PPPoE_WAN
+
+# 基本防火牆設定
+/ip firewall filter
+add chain=input action=accept connection-state=established,related
+add chain=input action=accept in-interface=LAN
+add chain=input action=drop in-interface=PPPoE_WAN
+
+/ipv6 firewall filter
+add chain=input action=accept connection-state=established,related
+add chain=input action=accept in-interface=LAN
+add chain=input action=drop in-interface=PPPoE_WAN
