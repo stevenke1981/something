@@ -58,7 +58,8 @@ set allow-remote-requests=yes servers=168.95.1.1,8.8.8.8
 set enabled=yes servers=pool.ntp.org
 
 # 防火牆預設規則
-# 防火牆過濾規則
+
+/ip firewall filter add chain=input action=accept in-interface=LAN comment="Allow all LAN input"
 
 # 快速通道 (Forward)
 /ip firewall filter add chain=forward action=fasttrack-connection hw-offload=yes connection-state=established,related comment="FastTrack established/related"
@@ -88,8 +89,6 @@ set enabled=yes servers=pool.ntp.org
 
 # 預設拒絕所有未匹配流量 (Input)
 /ip firewall filter add chain=input action=drop comment="Drop all other input"
-
-/ip firewall filter add chain=input action=accept in-interface=LAN comment="Allow all LAN input"
 
 
 
