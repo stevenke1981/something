@@ -1,0 +1,11 @@
+在 ARM64 平台上測試安裝
+sudo apt install ./noip-duc-arm64.deb
+
+確認程式是否正常運行
+noip-duc --help
+
+Usage:
+noip-duc [OPTIONS] --username <USERNAME> --password <PASSWORD>
+
+Example:
+noip-duc -g myhostname.ddns.net -u username -p password
