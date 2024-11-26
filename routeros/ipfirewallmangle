@@ -1,2 +1,7 @@
-/ip firewall mangle
-add chain=forward protocol=tcp tcp-flags=syn tcp-mss=1452 action=change-mss new-mss=1452 comment="Adjust MSS for optimal network performance"
+/ip firewall mangle add \
+chain=forward \
+protocol=tcp \
+tcp-flags=syn \
+action=change-mss \
+new-mss=1452 \
+comment="Adjust MSS for optimal network performance"
