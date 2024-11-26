@@ -1,0 +1,170 @@
+#!/bin/bash
+
+# DDNS-GO 安裝配置腳本
+
+# DDNS-GO 配置
+DDNS_GO_VERSION="6.7.6"
+DDNS_GO_ARCH="arm64"
+DDNS_GO_URL="https://github.com/jeessy2/ddns-go/releases/download/v${DDNS_GO_VERSION}/ddns-go_${DDNS_GO_VERSION}_linux_${DDNS_GO_ARCH}.tar.gz"
+DDNS_GO_CONFIG_DIR="/etc/ddns-go"
+DDNS_GO_CONFIG_FILE="${DDNS_GO_CONFIG_DIR}/config.yaml"
+
+# DDNS 提供商配置
+DDNS_PROVIDER="cloudflare"   # 支持的提供商
+DDNS_DOMAIN="yourdomain.com"
+DDNS_HOSTNAME="home.yourdomain.com"
+DDNS_TOKEN=""                # API Token
+
+# 安裝 DDNS-GO
+install_ddns_go() {
+    echo "開始安裝 DDNS-GO ${DDNS_GO_VERSION}..."
+
+    # 創建臨時目錄
+    mkdir -p /tmp/ddns-go
+    cd /tmp/ddns-go
+
+    # 下載 DDNS-GO
+    wget "${DDNS_GO_URL}" -O ddns-go.tar.gz
+
+    # 解壓縮
+    tar -xzf ddns-go.tar.gz
+
+    # 創建安裝目錄
+    mkdir -p /opt/ddns-go
+
+    # 複製可執行文件
+    cp ddns-go /opt/ddns-go/
+    chmod +x /opt/ddns-go/ddns-go
+
+    # 創建配置目錄
+    mkdir -p "${DDNS_GO_CONFIG_DIR}"
+
+    # 清理臨時文件
+    cd / && rm -rf /tmp/ddns-go
+
+    echo "DDNS-GO 安裝完成"
+}
+
+# 配置 DDNS-GO
+configure_ddns_go() {
+    echo "開始配置 DDNS-GO..."
+
+    # 創建配置文件
+    cat > "${DDNS_GO_CONFIG_FILE}" << EOF
+ddns:
+  - identifier: ""  # 留空自動檢測
+    provider: $DDNS_PROVIDER
+    domain:
+      - "$DDNS_HOSTNAME"
+    ipv4:
+      - "$DDNS_DOMAIN"
+    interval: 300  # 每 5 分鐘檢查一次
+    ttl: 600
+
+    # Cloudflare 配置
+    cloudflare:
+      token: "$DDNS_TOKEN"
+
+    # 其他可選配置
+    webhook:
+      enable: false
+
+    # 通知配置（可選）
+    notice:
+      type: ""  # 可選: bark, custom, dingtalk, email, telegram, traceNotice
+EOF
+
+    # 設置正確權限
+    chmod 600 "${DDNS_GO_CONFIG_FILE}"
+
+    echo "DDNS-GO 配置完成"
+}
+
+# 創建 Systemd 服務
+create_systemd_service() {
+    echo "創建 Systemd 服務..."
+
+    cat > /etc/systemd/system/ddns-go.service << EOF
+[Unit]
+Description=DDNS-GO Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/ddns-go/ddns-go -c ${DDNS_GO_CONFIG_FILE}
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+    # 重載 Systemd
+    systemctl daemon-reload
+    systemctl enable ddns-go
+    systemctl start ddns-go
+
+    echo "DDNS-GO 服務已啟動"
+}
+
+# 主安裝流程
+main() {
+    # 檢查 root 權限
+    if [[ $EUID -ne 0 ]]; then
+       echo "此腳本必須以 root 權限執行" 
+       exit 1
+    fi
+
+    install_ddns_go
+    configure_ddns_go
+    create_systemd_service
+
+    echo "DDNS-GO 安裝配置完成！"
+}
+
+# 執行安裝
+main
+```
+
+使用說明：
+
+1. 修改配置參數：
+   - `DDNS_GO_VERSION`：DDNS-GO 版本（預設已設定最新版）
+   - `DDNS_PROVIDER`：DDNS 服務提供商
+   - `DDNS_DOMAIN`：您的網域
+   - `DDNS_HOSTNAME`：要更新的完整主機名
+   - `DDNS_TOKEN`：您的 API Token
+
+2. 支持的 DDNS 提供商：
+   - Cloudflare
+   - 阿里雲
+   - 騰訊雲
+   - DNS.COM
+   - GoDaddy
+   - 華為雲
+   - 等多種
+
+3. 執行腳本：
+```bash
+chmod +x ddns_go_setup.sh
+sudo ./ddns_go_setup.sh
+```
+
+特色：
+- 自動下載並安裝 DDNS-GO
+- 支持多種 DDNS 服務提供商
+- 配置靈活
+- 系統服務支持
+- 定期自動更新 DNS 記錄
+
+注意事項：
+- 需要 root 權限
+- 請妥善保管 API Token
+- 建議使用支持 API Token 的服務
+
+配置建議：
+1. 建議使用 Cloudflare
+2. 在 Cloudflare 創建 API Token
+3. 選擇最小權限的 Token
+
+您是否需要我進一步解釋如何獲取和配置 API Token？
