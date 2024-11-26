@@ -39,18 +39,23 @@ add action=drop chain=forward connection-nat-state=!dstnat connection-state=new 
 # 10. Default drop for input chain
 add action=drop chain=input comment="Drop all other input"
 
-# 11. Block direct DNS connect to WAN
+# 11.  允許 AdGuard Home 的 TCP UDP DNS 流量
+add chain=forward action=accept protocol=tcp out-interface=PPPoE_WAN dst-port=53 src-address=172.17.0.2
+add chain=forward action=accept protocol=udp out-interface=PPPoE_WAN dst-port=53 src-address=172.17.0.2
+
+
+# 12. Block direct DNS connect to WAN
 add chain=forward action=drop protocol=udp dst-port=53 out-interface=PPPoE_WAN comment="Block LAN devices from bypassing AdGuard Home (UDP DNS)"
 add chain=forward action=drop protocol=tcp dst-port=53 out-interface=PPPoE_WAN comment="Block LAN devices from bypassing AdGuard Home (TCP DNS)"
 
 
 /ip firewall nat
-# 12. NAT Masquerade for PPPoE_WAN
+# 13. NAT Masquerade for PPPoE_WAN
 add action=masquerade chain=srcnat out-interface=PPPoE_WAN comment="Masquerade for PPPoE_WAN"
 
-# 13. DNS Redirection
+# 14. DNS Redirection
 add action=dst-nat chain=dstnat protocol=udp dst-port=53 in-interface=LAN to-addresses=172.17.0.2 to-ports=53 comment="Redirect UDP DNS to 172.17.0.2"
 add action=dst-nat chain=dstnat protocol=tcp dst-port=53 in-interface=LAN to-addresses=172.17.0.2 to-ports=53 comment="Redirect TCP DNS to 172.17.0.2"
 
-# 14. Port forward 3000 from 192.168.80.240 to 172.17.0.2
+# 15. Port forward 3000 from 192.168.80.240 to 172.17.0.2
 add action=dst-nat chain=dstnat protocol=tcp dst-port=3000 to-addresses=172.17.0.2 to-ports=3000 comment="Forward 3000 port to 172.17.0.2"
