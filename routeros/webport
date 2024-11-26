@@ -1,0 +1,11 @@
+# 1.建立Port Forwarding規則：
+/ip firewall nat
+add chain=dstnat protocol=tcp dst-port=80 action=dst-nat to-addresses=192.168.80.168 to-ports=8888 comment="Web Server Port Forwarding"
+
+# 2.允許入站連線：
+/ip firewall filter
+add chain=input protocol=tcp dst-port=80 action=accept comment="Allow Web Server Inbound"
+
+# 3.同時從WAN和LAN存取：
+/ip firewall nat
+add chain=srcnat protocol=tcp src-address=192.168.80.0/24 dst-address=192.168.80.168 dst-port=8888 to-addresses=192.168.80.168 to-ports=8888 comment="LAN to Web Server"
