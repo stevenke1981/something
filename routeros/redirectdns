@@ -1,0 +1,15 @@
+# IPv4 UDP DNS重定向
+/ip firewall nat
+add chain=prerouting action=redirect protocol=udp dst-port=53 to-ports=53 comment="Redirect DNS UDP"
+
+# IPv4 TCP DNS重定向
+/ip firewall nat
+add chain=prerouting action=redirect protocol=tcp dst-port=53 to-ports=53 comment="Redirect DNS TCP"
+
+# IPv6 UDP DNS重定向
+/ipv6 firewall nat
+add chain=prerouting action=redirect protocol=udp dst-port=53 to-ports=53 comment="Redirect IPv6 DNS UDP"
+
+# IPv6 TCP DNS重定向
+/ipv6 firewall nat
+add chain=prerouting action=redirect protocol=tcp dst-port=53 to-ports=53 comment="Redirect IPv6 DNS TCP"
