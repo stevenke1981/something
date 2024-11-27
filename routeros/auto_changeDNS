@@ -18,4 +18,28 @@
 /ip firewall address-list add list=LANs address=192.168.80.0/24
 /ip firewall address-list add list=LANs address=172.17.0.0/24
 
+please check on read write and test.
+script name BlockyChecker.
+##################### put this script to system/scripts/BlockyChecker################################################
+:local tcpRuleId [/ip firewall nat find comment=\"Blocky\" protocol=\"tcp\"]
+:local udpRuleId [/ip firewall nat find comment=\"Blocky\" protocol=\"udp\"]
+:local toAddresses [/ip firewall nat get \$tcpRuleId to-addresses]
+:local queryDomain \"www.google.com\"
+
+:if ([/ip firewall nat get \$tcpRuleId disabled] = false) do={
+    :do {
+        :resolve \$queryDomain server=\$toAddresses
+    } on-error={
+        /ip firewall nat set \$tcpRuleId disabled=yes
+        /ip firewall nat set \$udpRuleId disabled=yes
+    }
+} else={
+    :do {
+        :resolve \$queryDomain server=\$toAddresses
+        /ip firewall nat set \$tcpRuleId disabled=no
+        /ip firewall nat set \$udpRuleId disabled=no
+    } on-error={}
+}
+############################################################################
+
 
