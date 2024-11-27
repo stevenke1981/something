@@ -1,0 +1,48 @@
+# 清除既有設定
+/interface bridge remove [find]
+/ip address remove [find]
+
+# 介面設定
+/interface bridge add name=brLAN
+
+# 橋接LAN口
+/interface bridge port add bridge=brLAN interface=ether1
+/interface bridge port add bridge=brLAN interface=ether2
+/interface bridge port add bridge=brLAN interface=ether3
+
+# PPPoE WAN設定
+/interface pppoe-client add interface=ether4 name=pppoe-wan user=86396068@hinet.net password=787441 disabled=no add-default-route=yes use-peer-dns=no
+
+# IP地址配置
+/ip address add address=192.168.80.240/24 interface=brLAN network=192.168.80.0
+/ip address add address=172.17.0.1/24 interface=brLAN comment=AdGuardHome-Gateway
+
+# 路由設定
+/ip route add distance=1 gateway=pppoe-wan
+/ip route add dst-address=172.17.0.0/24 gateway=brLAN
+
+# DNS設定
+/ip dns set servers=172.17.0.2,168.95.1.1,8.8.8.8 allow-remote-requests=yes
+
+# DHCP服務器
+/ip pool add name=dhcp_pool ranges=192.168.80.100-192.168.80.250
+/ip dhcp-server add name=dhcp_local interface=brLAN address-pool=dhcp_pool disabled=no
+/ip dhcp-server network add address=192.168.80.0/24 gateway=192.168.80.240 dns-server=172.17.0.2
+
+# NAT設定
+/ip firewall nat add chain=srcnat out-interface=pppoe-wan action=masquerade
+
+# 防火牆基本規則
+/ip firewall filter add chain=input action=accept connection-state=established,related
+/ip firewall filter add chain=input action=drop connection-state=invalid
+/ip firewall filter add chain=input action=accept protocol=icmp
+/ip firewall filter add chain=input action=accept in-interface=brLAN
+/ip firewall filter add chain=input action=drop in-interface=pppoe-wan
+
+# 服務安全
+/ip service set telnet disabled=yes
+/ip service set ftp disabled=yes
+/ip service set api disabled=yes
+
+# 時間同步
+/system ntp client set enabled=yes primary-ntp=pool.ntp.org secondary-ntp=time.google.com
