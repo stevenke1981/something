@@ -28,6 +28,7 @@
 # 配置端口轉發 (將外部流量轉發到容器)
 /ip/firewall/nat/add action=dst-nat chain=dstnat dst-address=192.168.80.240 dst-port=8080 protocol=tcp to-addresses=172.17.0.2 to-ports=80
 
+delay-time=720
 # 將 Pi-hole 設為 DNS 服務器
 /ip/dns/set servers=172.17.0.2
 
