@@ -9,7 +9,7 @@
 
 # 添加環境變量
 /container/envs/add name=pihole_envs key=TZ value="Asia/Taipei"
-/container/envs/add name=pihole_envs key=WEBPASSWORD value="mysecurepassword"
+/container/envs/add name=pihole_envs key=WEBPASSWORD value="co047761816"
 /container/envs/add name=pihole_envs key=DNSMASQ_USER value="root"
 
 # 添加掛載點
