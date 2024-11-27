@@ -1,0 +1,21 @@
+# 1. 禁止ping
+/ip firewall filter add chain=input protocol=icmp action=drop comment="Drop excessive ping"
+
+# 2. 限制每秒連線數(預防洪水攻擊)
+/ip firewall filter add chain=input protocol=tcp connection-limit=20,32 action=drop comment="Drop excessive new connections"
+
+# 3. 阻止syn flood
+/ip firewall filter add chain=input protocol=tcp tcp-flags=syn connection-limit=50,32 action=drop comment="Block SYN flood"
+
+# 4. 禁止掃port
+/ip firewall filter add chain=input protocol=tcp psd=21,3s,3,1 action=add-src-to-address-list address-list=port-scanners address-list-timeout=1h comment="Detect port scanners"
+/ip firewall filter add chain=input src-address-list=port-scanners action=drop comment="Drop port scanners"
+
+
+# 5. 啟用日誌紀錄防火牆
+/system logging add topics=firewall action=memory
+
+# 6. 使用 Layer 7 Protocol過濾
+/ip firewall layer7-protocol add name=block_p2p regexp="^\\x13BitTorrent"
+/ip firewall filter add chain=forward protocol=tcp layer7-protocol=block_p2p action=drop comment="Block BitTorrent traffic"
+
