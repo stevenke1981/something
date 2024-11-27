@@ -1,0 +1,21 @@
+# 停用 Mikrotik 的 DNS Server
+/ip dns set allow-remote-requests=no
+
+# 添加 NAT 規則，將 DNS 流量導向 Pi-Hole (172.17.0.2)
+/ip firewall nat add action=dst-nat chain=dstnat comment="Blocky" dst-port=53 protocol=tcp src-address-list=LANs dst-address-list=LANs to-addresses=172.17.0.2
+/ip firewall nat add action=dst-nat chain=dstnat comment="Blocky" dst-port=53 protocol=udp src-address-list=LANs dst-address-list=LANs to-addresses=172.17.0.2
+
+# 添加 Hairpin NAT 規則 (如需要)
+/ip firewall mangle add action=mark-connection chain=prerouting comment="Mark connections for hairpin NAT - LAN IP" dst-address-list=LANs new-connection-mark="Hairpin NAT" passthrough=yes src-address-list=LANs
+/ip firewall nat add action=masquerade chain=srcnat comment="Hairpin NAT" connection-mark="Hairpin NAT"
+
+# 添加定時任務，每分鐘執行一次腳本
+/system scheduler add name="BlockyScheduler" interval=1m on-event="BlockyChecker"
+
+# 啟用 Mikrotik 的 DNS Server
+/ip dns set allow-remote-requests=yes
+
+/ip firewall address-list add list=LANs address=192.168.80.0/24
+/ip firewall address-list add list=LANs address=172.17.0.0/24
+
+
