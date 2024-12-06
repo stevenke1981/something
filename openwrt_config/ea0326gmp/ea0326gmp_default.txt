@@ -51,6 +51,11 @@ uci set network.lan.ipaddr='192.168.1.1'
 uci commit
 
 
+##############openwrt 24.10rc2############
+base-files busybox ca-bundle dnsmasq dropbear firewall4 fitblk fstools kmod-crypto-hw-safexcel kmod-gpio-button-hotplug kmod-leds-gpio kmod-nft-offload kmod-phy-aquantia libc libgcc libustream-mbedtls logd mtd netifd nftables odhcp6c odhcpd-ipv6only opkg ppp ppp-mod-pppoe procd procd-seccomp procd-ujail uboot-envtools uci uclient-fetch urandom-seed urngd wpad-mbedtls kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware luci nano luci-theme-material luci-i18n-base-zh-tw luci-app-wol luci-app-watchcat luci-app-wifischedule luci-app-ddns luci-app-upnp luci-app-nlbwmon luci-app-statistics luci-app-mwan3
+#########################################
+
+
 
 nano luci-theme-material luci-i18n-base-zh-tw lua-mosquitto luci-app-mosquitto luci-app-mosquitto-zh-tw luci-app-zerotier luci-app-wol luci-app-watchcat luci-app-wifischedule luci-app-ddns luci-app-upnp luci-app-nlbwmon luci-app-statistics \
     collectd \
