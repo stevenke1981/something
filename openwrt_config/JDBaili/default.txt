@@ -47,6 +47,11 @@ uci set system.@system[0].zonename=Asia/Taipei
 uci set system.@system[0].timezone=CST-8
 
 # 配置LAN IP地址
+# 調整 DHCP 起始地址
+uci set dhcp.lan.start=50
+
+# 調整 DHCP 地址池大小
+uci set dhcp.lan.limit=200
 uci set network.lan.ipaddr='192.168.80.240'
 uci commit
 
