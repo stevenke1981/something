@@ -1,0 +1,5 @@
+nvram set dns_probe_host="dns.msftncsi.com"
+nvram set dns_ping_list="<Cloudflare>1.1.1.1<Cloudflare>1.0.0.1<Google>8.8.8.8<Google>8.8.4.4<HiNet>168.95.1.1<Yandex>77.88.8.8<Yandex>77.88.8.1"
+nvram set ping_target="www.google.com"
+nvram commit
+reboot
