@@ -1,2 +1,49 @@
-Fail2Ban需要配置两个地方，一个是过滤规则，或者说是正则匹配逻辑；一个是配置具体封禁策略，包含hit次数，日志位置等。
+在OpenWrt上設定fail2ban需要幾個步驟：
+
+安裝必要套件
+首先，透過SSH連線到OpenWrt路由器，執行以下指令安裝fail2ban：
+
+opkg update
+opkg install fail2ban
+opkg install python3-pyinotify
+
+配置fail2ban
+預設的配置檔案通常位於 /etc/fail2ban/。你需要編輯主要設定檔 jail.local：
+
+vi /etc/fail2ban/jail.local
+
+基本範例設定
+以下是一個保護SSH的基本範例：
+
+[DEFAULT]
+# 封鎖時間
+bantime = 3600
+# 發現多少次嘗試後封鎖
+maxretry = 3
+# 偵測時間範圍
+findtime = 600
+
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+
+啟動服務
+
+/etc/init.d/fail2ban enable
+/etc/init.d/fail2ban start
+
+額外建議
+
+
+確保日誌功能已正確啟用
+可以設定多個服務的保護規則
+定期檢查日誌以確認運作正常
+
+注意事項：
+
+OpenWrt的fail2ban可能與標準Linux發行版有些微差異
+某些設定可能需要根據你的特定網路環境客製化
+建議先測試，避免不小心將自己鎖在路由器之外
 
