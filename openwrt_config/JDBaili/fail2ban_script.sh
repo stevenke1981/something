@@ -36,27 +36,13 @@ create_dropbear_config() {
     if [ ! -f "$CONFIG_PATH" ]; then
         cat > "$CONFIG_PATH" << EOL
 [dropbear]
-# 啟用此策略
 enabled = true
-
-# 使用 dropbear 過濾器來識別登入嘗試
 filter = dropbear
-
-# 配置 iptables 動作，指定 SSH 埠為 22，協議為 TCP
 action = iptables[port=22, protocol=tcp]
-
-# 系統日誌文件路徑，用於監控登入嘗試
 logpath = /tmp/log/system.log
-
-# 最大重試次數，超過 3 次則觸發封鎖
 maxretry = 5
-
-# 封鎖時間，這裡設置為 604800 秒（7 天）
 bantime = 3600
-
-# 統計重試次數的時間窗口，這裡為 86400 秒（1 天）
 findtime = 86400
-
 EOL
         echo "已創建 $CONFIG_PATH 配置文件"
     else
