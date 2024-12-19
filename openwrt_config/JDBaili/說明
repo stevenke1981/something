@@ -1,0 +1,85 @@
+# Fail2ban 配置文件
+
+# 警告：在 0.9.0 版本中進行了大量重構。請審查並為您的設置自定義設定。
+
+# 變更說明：在大多數情況下，您不應該修改此文件，
+# 而是在 jail.local 文件中提供自定義設定，
+# 或在 jail.d/ 目錄下的單獨 .conf 文件中提供。
+
+# 如何啟用監獄：
+
+# 您不應該修改此文件。
+
+# 它可能會在發行版更新時被覆蓋或改進。
+
+# 請在 jail.local 文件或 jail.d/customisation.local 中提供自定義設定。
+# 例如，要更改所有監獄的默認封禁時間並啟用 ssh-iptables 監獄，
+# 以下是 .local 文件中應該出現的內容（取消註釋）。
+# 詳情請參閱 man 5 jail.conf。
+
+# [DEFAULT]
+# bantime = 1h
+#
+# [sshd]
+# enabled = true
+
+# 註釋：使用 '#' 作為註釋行，使用 ';'（在空格後）作為行內註釋
+
+[INCLUDES]
+
+#before = paths-distro.conf
+before = paths-debian.conf
+
+# DEFAULT 允許對選項進行全局定義。
+# 這些選項可以在之後的每個監獄中被覆蓋。
+
+[DEFAULT]
+
+# 雜項選項
+
+# "bantime.increment" 允許使用數據庫搜索先前被封禁的 IP 來增加默認封禁時間
+# 使用特殊公式，默認是 banTime * 1, 2, 4, 8, 16, 32...
+#bantime.increment = true
+
+# "bantime.rndtime" 是用於混合隨機時間的最大秒數
+# 用於防止"聰明的"機器人計算出 IP 何時可以重新解封
+#bantime.rndtime = 
+
+# "bantime.maxtime" 是封禁時間可以達到的最大秒數（不會繼續增長）
+#bantime.maxtime = 
+
+# "bantime.factor" 是用於計算公式指數增長或通用乘數的係數，
+# factor 的默認值為 1，使用默認公式時，封禁時間增長為 1, 2, 4, 8, 16 ...
+#bantime.factor = 1
+
+# "bantime.formula" 默認用於計算下一個封禁時間值，默認值如下，
+# 相同的封禁時間增長可以通過乘數 1, 2, 4, 8, 16, 32... 達到
+#bantime.formula = ban.Time * (1<<(ban.Count if ban.Count<20 else 20)) * banFactor
+
+# 更激進的公式示例只對係數 "2.0 / 2.885385" 有相同的值：
+#bantime.formula = ban.Time * math.exp(float(ban.Count+1)*banFactor)/math.exp(1*banFactor)
+
+# "bantime.multipliers" 用於計算下一個封禁時間值而不是使用公式，
+# 對應之前的封禁次數和給定的 "bantime.factor"（乘數默認為 1）；
+# 以下示例通過 1, 2, 4, 8, 16 ... 增長封禁時間，如果最後的封禁次數大於乘數計數，
+# 始終使用最後的乘數（示例中為 64），對於係數 '1' 和原始封禁時間 600 - 10.6 小時
+#bantime.multipliers = 1 2 4 8 16 32 64
+
+# 以下示例可用於小的初始封禁時間（bantime=60）- 在開始時增長更激進，
+# 對於 bantime=60，乘數以分鐘為單位，相當於：1分鐘，5分鐘，30分鐘，1小時，5小時，12小時，1天，2天
+#bantime.multipliers = 1 5 30 60 300 720 1440 2880
+
+# "bantime.overalljails"（如果為 true）指定在數據庫中搜索 IP 將跨所有監獄執行，
+# 如果為 false（默認），只搜索當前監獄中被封禁的 IP
+#bantime.overalljails = false
+
+# "ignoreself" 指定是否應忽略本地或自己的 IP 地址（默認為 true）。
+# Fail2ban 不會封禁符合這些地址的主機。
+#ignoreself = true
+
+# "ignoreip" 可以是 IP 地址、CIDR 掩碼或 DNS 主機的列表。
+# Fail2ban 不會封禁符合此列表中地址的主機。
+# 可以使用空格（和/或逗號）分隔定義多個地址。
+#ignoreip = 127.0.0.1/8 ::1
+
+[以下省略監獄配置部分的翻譯，因為這些是特定服務的技術配置]
