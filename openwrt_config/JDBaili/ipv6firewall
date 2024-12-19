@@ -1,0 +1,15 @@
+編輯 /etc/config/firewall
+
+config nat
+	option name 'IPv6 Masquerade'
+	option family 'ipv6'
+	option src 'wan'
+	option target 'MASQUERADE'
+	list proto 'all'
+
+編輯 /etc/nftables.d/10-custom-filter-chains.nft
+
+chain user_post_forward {
+    ct state established,related accept 
+    iifname br-lan accept 
+}
