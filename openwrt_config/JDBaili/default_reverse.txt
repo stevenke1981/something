@@ -33,8 +33,8 @@ uci set wireless.default_radio0.ieee80211k=1
 # 802.11v (BSS Transition Management)
 uci set wireless.default_radio0.wnm_sleep_mode=1
 uci set wireless.default_radio0.bss_transition=1
-uci set wireless.default_radio0.he_su_beamformee=1
-uci set wireless.default_radio0.he_bss_color=8
+#uci set wireless.default_radio0.he_su_beamformee=1
+#uci set wireless.default_radio0.he_bss_color=8
 
 
 # 802.11r (Fast Roaming / Fast Transition)
