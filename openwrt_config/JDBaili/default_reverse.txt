@@ -66,8 +66,22 @@ uci set network.wan.device='lan4'
 uci set network.wan.proto='pppoe'
 uci set network.wan.username='86396068@hinet.net'
 uci set network.wan.password='787441'
-uci set network.wan.ipv6='auto'
-  
+uci set network.wan.ipv6='0'    # 關閉 PPPoE 自動 IPv6
+
+# 設定 wan6 介面跟隨 wan
+uci set network.wan6=interface
+uci set network.wan6.proto='dhcpv6'
+uci set network.wan6.device='@wan'
+uci set network.wan6.reqaddress='try'
+uci set network.wan6.reqprefix='auto'
+
+
+  # 啟用 STP (Spanning Tree Protocol)
+uci set network.@device[0].stp='1'
+
+# 啟用 IGMP snooping
+uci set network.@device[0].igmp_snooping='1'
+
   
 uci commit
 
