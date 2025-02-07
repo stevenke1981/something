@@ -3,7 +3,6 @@
 autocore - 用於自動配置和優化系統核心，包括 CPU 頻率調整和溫度監控
 block-mount - 提供區塊設備掛載功能，允許系統掛載額外的存儲設備
 bridger - 網橋管理工具，用於創建和管理網絡橋接
-default-settings-chn - 針對中國用戶的預設設置包，包含一些本地化配置
 dnsmasq-full (vs dnsmasq) - DNS 和 DHCP 服務器的完整版本，包含更多功能如 DNSSEC、iPXE 等
 kmod-nf-nathelper - 核心模組，提供基本的 NAT 輔助功能
 kmod-nf-nathelper-extra - 額外的 NAT 輔助模組，支援更多協議的 NAT 穿透
@@ -14,3 +13,6 @@ luci-lib-ipkg - LuCI 的 ipkg/opkg 套件管理函式庫
 luci-light - LuCI 網頁介面的輕量版本
 libustream-openssl (vs libustream-mbedtls) - 使用 OpenSSL 實現的 SSL/TLS 庫，通常提供更完整的加密功能
 wpad-openssl (vs wpad-basic-mbedtls) - 使用 OpenSSL 的無線網路配置守護進程，支援更多加密選項
+
+
+autocore block-mount bridger dnsmasq-full kmod-nf-nathelper kmod-nf-nathelper-extra luci-app-package-manager luci-compat luci-lib-base luci-lib-ipkg luci-light wpad-openssl
