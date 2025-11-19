@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  crowdsec:
+    image: crowdsecurity/crowdsec:latest
+    container_name: crowdsec
+    restart: unless-stopped
+    environment:
+      - COLLECTIONS=crowdsecurity/linux crowdsecurity/sshd crowdsecurity/nginx crowdsecurity/http-cve
+      - TZ=Asia/Taipei
+      # 重要：開放外部 bouncer 連進來的 LAPI 端口（原本只綁 127.0.0.1 會連不到）
+      - GIN_MODE=release
+    volumes:
+      - /volume1/docker/crowdsec/config:/etc/crowdsec
+      - /volume1/docker/crowdsec/data:/var/lib/crowdsec/data
+      - /var/log/auth.log:/logs/auth.log:ro
+      - /var/log/messages:/logs/messages:ro
+    ports:
+	  - "8080:8080"
+	  - "6060:6060"
+    networks:
+      - crowdsec_network
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    sysctls:
+      - net.ipv4.ip_unprivileged_port_start=0
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  crowdsec_network:
+    driver: bridge
